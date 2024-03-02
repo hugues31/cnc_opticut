@@ -1,0 +1,7 @@
+{
+    "appTitle": "cnc_opticut",
+    "@appTitle": {
+        "description": "Le titre de l'appli"
+    },
+    "itemList": "Liste des éléments"
+}
