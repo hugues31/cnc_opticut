@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../settings/settings_view.dart';
-import 'sample_item.dart';
+import 'material_item.dart';
 import 'sample_item_details_view.dart';
 
 /// Displays a list of SampleItems.
 class SampleItemListView extends StatelessWidget {
   const SampleItemListView({
     super.key,
-    this.items = const [SampleItem(1), SampleItem(2), SampleItem(3)],
+    this.items = const [
+      MaterialItem(1, 'Item 1', 100),
+      MaterialItem(2, 'Item 2', 200),
+      MaterialItem(3, 'Item 3', 300),
+    ],
   });
 
-  static const routeName = '/';
+  static const routeName = '/sample_list';
 
-  final List<SampleItem> items;
+  final List<MaterialItem> items;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +55,7 @@ class SampleItemListView extends StatelessWidget {
           final item = items[index];
 
           return ListTile(
-              title: Text('SampleItem ${item.id}'),
+              title: Text(item.name),
               leading: const CircleAvatar(
                 // Display the Flutter Logo image asset.
                 foregroundImage: AssetImage('assets/images/flutter_logo.png'),
@@ -60,10 +64,11 @@ class SampleItemListView extends StatelessWidget {
                 // Navigate to the details page. If the user leaves and returns to
                 // the app after it has been killed while running in the
                 // background, the navigation stack is restored.
-                Navigator.restorablePushNamed(
-                  context,
-                  SampleItemDetailsView.routeName,
-                );
+                // Navigator.restorablePushNamed(
+                //   context,
+                //   SampleItemDetailsView.routeName,
+                // );
+                Navigator.pop(context, item);
               });
         },
       ),

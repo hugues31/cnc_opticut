@@ -1,6 +1,10 @@
 # cnc_opticut
 
-A new Flutter project.
+Compute easily the best speed cutting for your CNC machine.
+
+## TODO
+
+- [ ] Make logo available for iOS and web
 
 ## Getting Started
 
