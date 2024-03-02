@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'material_list/sample_item_details_view.dart';
-import 'material_list/sample_item_list_view.dart';
+import 'material_list/material_details_view.dart';
+import 'material_list/material_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
@@ -71,12 +71,12 @@ class App extends StatelessWidget {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
-                  case SampleItemDetailsView.routeName:
-                    return const SampleItemDetailsView();
-                  case SampleItemListView.routeName:
-                    return const SampleItemListView();
+                  case MaterialDetailsView.routeName:
+                    return const MaterialDetailsView();
+                  case MaterialListView.routeName:
+                    return const MaterialListView();
                   default:
-                    return MainView();
+                    return const MainView();
                 }
               },
             );

@@ -1,7 +1,25 @@
 {
+  "@@locale": "en",
   "appTitle": "cnc_opticut",
   "@appTitle": {
-    "description": "The title of the application"
+    "description": "CNC Opticut"
   },
-  "itemList": "List of items"
+  "materialsList": "List of materials",
+  "materialSelection": "Material selection:",
+  "settings": "Settings",
+  "systemDefault": "System default",
+  "lightTheme": "Light theme",
+  "darkTheme": "Dark theme",
+  "particleBoard": "Soft wood / MDF",
+  "wood": "Hard wood / CTP",
+  "brass": "Brass",
+  "materialDesc": "Material '{name}' has the following properties:",
+  "cuttingSpeedHSS": "Cutting speed (HSS): {cutSpeedHss}",
+  "cuttingSpeedCarbide": "Cutting speed (carbide): {cutSpeedCarbide}",
+  "carbide": "Carbide",
+  "chooseNumberOfPoles": "Choose the number of poles (Pp):",
+  "chooseNumberOfTeeth": "Choose the number of teeth (Z):",
+  "cuttingParameters": "Cutting parameters",
+  "drillingBitType": "Drilling bit type:",
+  "chooseDiameter": "Choose the diameter:"
 }

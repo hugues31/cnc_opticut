@@ -2,22 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../settings/settings_view.dart';
 import 'material_item.dart';
-import 'sample_item_details_view.dart';
+import 'materials_list.dart';
+import 'material_details_view.dart';
 
 /// Displays a list of SampleItems.
-class SampleItemListView extends StatelessWidget {
-  const SampleItemListView({
+class MaterialListView extends StatelessWidget {
+  const MaterialListView({
     super.key,
-    this.items = const [
-      MaterialItem(1, 'Item 1', 100),
-      MaterialItem(2, 'Item 2', 200),
-      MaterialItem(3, 'Item 3', 300),
-    ],
+    this.items = materialsList,
   });
 
-  static const routeName = '/sample_list';
+  static const routeName = '/material_list';
 
   final List<MaterialItem> items;
 
@@ -25,15 +21,15 @@ class SampleItemListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.itemList),
+        title: Text(AppLocalizations.of(context)!.materialsList),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.add),
             onPressed: () {
               // Navigate to the settings page. If the user leaves and returns
               // to the app after it has been killed while running in the
               // background, the navigation stack is restored.
-              Navigator.restorablePushNamed(context, SettingsView.routeName);
+              // Navigator.restorablePushNamed(context, SettingsView.routeName);
             },
           ),
         ],
@@ -49,16 +45,42 @@ class SampleItemListView extends StatelessWidget {
         // Providing a restorationId allows the ListView to restore the
         // scroll position when a user leaves and returns to the app after it
         // has been killed while running in the background.
-        restorationId: 'sampleItemListView',
+        restorationId: 'materialItemListView',
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
 
           return ListTile(
               title: Text(item.name),
-              leading: const CircleAvatar(
-                // Display the Flutter Logo image asset.
-                foregroundImage: AssetImage('assets/images/flutter_logo.png'),
+              leading: CircleAvatar(
+                foregroundImage: item.image,
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.info),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        MaterialDetailsView.routeName,
+                        arguments: item,
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      // Navigate to the settings page. If the user leaves and
+                      // returns to the app after it has been killed while running
+                      // in the background, the navigation stack is restored.
+                      // Navigator.restorablePushNamed(
+                      //   context,
+                      //   SettingsView.routeName,
+                      // );
+                    },
+                  ),
+                ],
               ),
               onTap: () {
                 // Navigate to the details page. If the user leaves and returns to
@@ -69,6 +91,13 @@ class SampleItemListView extends StatelessWidget {
                 //   SampleItemDetailsView.routeName,
                 // );
                 Navigator.pop(context, item);
+              },
+              onLongPress: () {
+                Navigator.pushNamed(
+                  context,
+                  MaterialDetailsView.routeName,
+                  arguments: item,
+                );
               });
         },
       ),

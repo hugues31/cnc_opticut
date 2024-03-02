@@ -1,7 +1,25 @@
 {
+    "@@locale": "fr",
     "appTitle": "cnc_opticut",
     "@appTitle": {
-        "description": "Le titre de l'appli"
+        "description": "CNC Opticut"
     },
-    "itemList": "Liste des éléments"
+    "materialsList": "Liste des matériaux",
+    "materialSelection": "Sélection du matériau :",
+    "settings": "Paramètres",
+    "systemDefault": "Paramètres par défaut",
+    "lightTheme": "Thème clair",
+    "darkTheme": "Thème sombre",
+    "particleBoard": "Bois tendre / MDF",
+    "wood": "Bois dur / CTP",
+    "brass": "Laiton",
+    "materialDesc": "Le matériau '{name}' a les propriétés suivantes :",
+    "cuttingSpeedHSS": "Vitesse de coupe (HSS): {cutSpeedHss}",
+    "cuttingSpeedCarbide": "Vitesse de coupe (carbure): {cutSpeedCarbide}",
+    "carbide": "Carbure",
+    "chooseNumberOfPoles": "Choisissez le nombre de pôles (Pp) :",
+    "chooseNumberOfTeeth": "Choisissez le nombre de dents (Z) :",
+    "cuttingParameters": "Paramètres de coupe",
+    "drillingBitType": "Type de foret :",
+    "chooseDiameter": "Choisissez le diamètre :"
 }
