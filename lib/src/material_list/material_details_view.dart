@@ -44,7 +44,7 @@ class MaterialDetailsView extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(32),
                 child: Image(
-                  image: item.image,
+                  image: AssetImage(item.imagePath),
                 ),
               ),
             ),

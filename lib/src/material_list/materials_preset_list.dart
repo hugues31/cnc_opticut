@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'material_item.dart';
 
-const materialsList = [
+const materialsPresetList = [
   MaterialItem(
       1,
       'Bois tendre / Mdf',
@@ -16,7 +14,8 @@ const materialsList = [
         5: [0.2, 4.1],
         6: [0.3, 5.8]
       },
-      AssetImage('assets/images/particle_board_wood.png')),
+      'assets/images/particle_board_wood.png',
+      true),
   MaterialItem(
       2,
       'Bois dur / CTP',
@@ -30,7 +29,8 @@ const materialsList = [
         5: [0.13, 3.7],
         6: [0.18, 5.5],
       },
-      AssetImage('assets/images/wood.png')),
+      'assets/images/wood.png',
+      true),
   MaterialItem(
       3,
       'PVC',
@@ -44,7 +44,8 @@ const materialsList = [
         5: [0.3, 4.8],
         6: [0.4, 6],
       },
-      AssetImage('assets/images/pvc.png')),
+      'assets/images/pvc.png',
+      true),
   MaterialItem(
       4,
       'POM/PMMA/PC',
@@ -58,7 +59,8 @@ const materialsList = [
         5: [0.07, 3.2],
         6: [0.1, 4.8],
       },
-      AssetImage('assets/images/pmma.png')),
+      'assets/images/pmma.png',
+      true),
   MaterialItem(
       5,
       'Brass',
@@ -72,7 +74,8 @@ const materialsList = [
         5: [0.05, 1.2],
         6: [0.07, 1.5],
       },
-      AssetImage('assets/images/brass.png')),
+      'assets/images/brass.png',
+      true),
   MaterialItem(
       6,
       'Aluminium+Lub, Si <10%',
@@ -86,7 +89,8 @@ const materialsList = [
         5: [0.045, 1.2],
         6: [0.06, 1.5],
       },
-      AssetImage('assets/images/aluminium.png')),
+      'assets/images/aluminium.png',
+      true),
   MaterialItem(
       7,
       'Alpax+Lub, Si >10%',
@@ -100,5 +104,6 @@ const materialsList = [
         5: [0.03, 0.7],
         6: [0.04, 0.9],
       },
-      AssetImage('assets/images/aluminium.png')),
+      'assets/images/aluminium.png',
+      true),
 ];

@@ -46,7 +46,7 @@ class MaterialSelectionWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(32),
                     child: Image.asset(
-                      selectedMaterial.image.assetName,
+                      selectedMaterial.imagePath,
                       height: 32,
                     ),
                   ),

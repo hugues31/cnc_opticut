@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'material_item.dart';
-import 'materials_list.dart';
+import 'materials_preset_list.dart';
 import 'material_details_view.dart';
 
 /// Displays a list of SampleItems.
 class MaterialListView extends StatelessWidget {
   const MaterialListView({
     super.key,
-    this.items = materialsList,
+    this.items = materialsPresetList,
   });
 
   static const routeName = '/material_list';
@@ -53,7 +53,7 @@ class MaterialListView extends StatelessWidget {
           return ListTile(
               title: Text(item.name),
               leading: CircleAvatar(
-                foregroundImage: item.image,
+                foregroundImage: AssetImage(item.imagePath),
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,

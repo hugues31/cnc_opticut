@@ -1,19 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 
-/// A class that represents a cuttable material item.
+part 'material_item.g.dart';
+
+@collection
 class MaterialItem {
-  const MaterialItem(this.id, this.name, this.cutSpeedHss, this.cutSpeedCarbide,
-      this.materialSpecs, this.image);
+  Id id = Isar.autoIncrement;
 
-  final int id;
+  String? name;
+  MaterialSpecs? materialSpecs;
+  String? imagePath; // Changed to imagePath
+  bool? isPreset;
+}
 
-  final String name;
-
-  final int cutSpeedHss;
-
-  final int cutSpeedCarbide;
-
-  final Map<int, List<double>> materialSpecs;
-
-  final AssetImage image;
+@embedded
+class MaterialSpecs {
+  int? cutSpeedHss;
+  int? cutSpeedCarbide;
+  List<int>? depth;
+  List<double>? chipLoad;
+  List<double>? depthPerPass;
 }

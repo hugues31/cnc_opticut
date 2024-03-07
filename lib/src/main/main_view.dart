@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
-import '../material_list/materials_list.dart';
+import '../material_list/materials_preset_list.dart';
 import '../settings/settings_view.dart';
 import 'material_selector.dart';
 
@@ -18,7 +18,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainView> {
-  MaterialItem selectedMaterial = materialsList[0];
+  MaterialItem selectedMaterial = materialsPresetList[0];
   bool isHss = true;
 
   double d = 2.00;
