@@ -39,13 +39,17 @@ Future<void> initDatabase(Isar isar) async {
 
 Future<void> resetDatabase(WidgetRef ref) async {
   final isar = await ref.watch(databaseProvider.future);
-  await isar.close();
+  if (isar.isOpen) {
+    await isar.close();
+  }
   _isarInstance = null;
   final dir = await getApplicationDocumentsDirectory();
   await dir.delete(recursive: true);
 
   final newIsar = await getDatabase();
   await initDatabase(newIsar);
+
+  ref.invalidate(databaseProvider);
 }
 
 Future<void> performMigrationIfNeeded(Isar isar) async {
@@ -82,3 +86,20 @@ Future<List<MaterialItem>> getMaterialsFromDatabase(WidgetRef ref) async {
 final databaseProvider = FutureProvider<Isar>((ref) async {
   return getDatabase();
 });
+
+Future<void> addMaterialToDatabase(WidgetRef ref, MaterialItem material) async {
+  final isar = await ref.watch(databaseProvider.future);
+  await isar.writeTxn(() async {
+    await isar.materialItems.put(material);
+  });
+  ref.invalidate(databaseProvider);
+}
+
+Future<void> deleteMaterialFromDatabase(
+    WidgetRef ref, MaterialItem material) async {
+  final isar = await ref.watch(databaseProvider.future);
+  await isar.writeTxn(() async {
+    await isar.materialItems.delete(material.id);
+  });
+  ref.invalidate(databaseProvider);
+}

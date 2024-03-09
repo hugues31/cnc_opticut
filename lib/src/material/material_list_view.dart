@@ -79,7 +79,40 @@ class MaterialListView extends ConsumerWidget {
                         IconButton(
                           icon: const Icon(Icons.delete),
                           // Impossible to delete a preset, only custom materials
-                          onPressed: item.isPreset ? null : () {},
+                          onPressed: item.isPreset
+                              ? null
+                              : () {
+                                  // Ask for confirmation before deleting
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Suppression"),
+                                        content: const Text("Confirmation"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .cancel),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              deleteMaterialFromDatabase(
+                                                  ref, item);
+                                            },
+                                            child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .delete),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                         ),
                       ],
                     ),

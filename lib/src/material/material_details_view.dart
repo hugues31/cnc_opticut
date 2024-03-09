@@ -17,6 +17,12 @@ class MaterialDetailsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(item.getLocalizedName(context)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: item.isPreset ? null : () {},
+          )
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -52,6 +58,8 @@ class MaterialDetailsView extends StatelessWidget {
             ),
           ),
           DataTable(
+              sortColumnIndex: 1,
+              sortAscending: false,
               columns: const <DataColumn>[
                 DataColumn(
                   label: Expanded(
@@ -60,6 +68,7 @@ class MaterialDetailsView extends StatelessWidget {
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
+                  numeric: true,
                 ),
                 DataColumn(
                   label: Expanded(
@@ -68,6 +77,7 @@ class MaterialDetailsView extends StatelessWidget {
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
+                  numeric: true,
                 ),
                 DataColumn(
                   label: Expanded(
@@ -76,13 +86,28 @@ class MaterialDetailsView extends StatelessWidget {
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
+                  numeric: true,
                 ),
               ],
               rows: List<DataRow>.generate(
                 item.materialSpecs.depth.length,
                 (int index) => DataRow(
+                  color: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.08);
+                    }
+                    if (index.isEven) {
+                      return Colors.grey.withOpacity(0.2);
+                    }
+                    return null; // Use default value for other states and odd rows.
+                  }),
                   cells: <DataCell>[
-                    DataCell(Text('${item.materialSpecs.depth[index]}')),
+                    DataCell(Text('${item.materialSpecs.depth[index]}'),
+                        showEditIcon: true, onTap: () {}),
                     DataCell(Text('${item.materialSpecs.chipLoad[index]}')),
                     DataCell(Text('${item.materialSpecs.depthPerPass[index]}')),
                   ],
