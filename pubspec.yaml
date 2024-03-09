@@ -9,6 +9,9 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.3.0 <4.0.0'
 
+isar_version: &isar_version 3.1.3 # define the version to be used
+
+
 dependencies:
   flutter:
     sdk: flutter
@@ -17,8 +20,18 @@ dependencies:
   intl: any
   shared_preferences: ^2.2.2
   flutter_math_fork: ^0.7.2
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
+  isar:
+    version: *isar_version
+    hosted: https://isar-community.dev/
+  isar_flutter_libs: # contains Isar Core
+    version: *isar_version
+    hosted: https://isar-community.dev/
+  path_provider: ^2.1.2
+  package_info_plus: ^5.0.1
+  flutter_riverpod: ^2.4.10
+  riverpod_annotation: ^2.3.4
+  riverpod_lint: ^2.3.9
+
 
 
 dev_dependencies:
@@ -27,8 +40,13 @@ dev_dependencies:
 
   flutter_lints: ^3.0.0
 
-  isar_generator: ^3.1.0+1
-  build_runner: ^2.4.8
+  isar_generator:
+    version: *isar_version
+    hosted: https://isar-community.dev/
+
+  build_runner:
+  custom_lint:
+  riverpod_generator: ^2.3.11
 
 flutter:
   uses-material-design: true

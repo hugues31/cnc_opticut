@@ -1,8 +1,8 @@
 // A custom widget for material selection
 import 'package:flutter/material.dart';
 
-import '../material_list/material_item.dart';
-import '../material_list/material_list_view.dart';
+import '../material/material_item.dart';
+import '../material/material_list_view.dart';
 
 class MaterialSelectionWidget extends StatelessWidget {
   final MaterialItem selectedMaterial;
@@ -40,7 +40,7 @@ class MaterialSelectionWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
-                      child: Text(selectedMaterial.name,
+                      child: Text(selectedMaterial.getLocalizedName(context),
                           overflow: TextOverflow.fade, softWrap: false)),
                   const SizedBox(width: 10),
                   ClipRRect(

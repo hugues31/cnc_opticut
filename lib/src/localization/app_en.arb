@@ -10,6 +10,12 @@
   "systemDefault": "System default",
   "lightTheme": "Light theme",
   "darkTheme": "Dark theme",
+  "selectMaterialLabel": "{type, select, softWood {Soft Wood / Mdf} hardWood {Hard Wood / CTP} brass {Brass} other {no_name} }",
+  "@selectMaterialLabel": {
+    "placeholders": {
+      "type": {}
+    }
+  },
   "particleBoard": "Soft wood / MDF",
   "wood": "Hard wood / CTP",
   "brass": "Brass",
@@ -21,5 +27,10 @@
   "chooseNumberOfTeeth": "Choose the number of teeth (Z):",
   "cuttingParameters": "Cutting parameters",
   "drillingBitType": "Drilling bit type:",
-  "chooseDiameter": "Choose the diameter:"
+  "chooseDiameter": "Choose the diameter:",
+  "deleteDb": "Delete database",
+  "deleteDbConfirmation": "Are you sure you want to delete the database?",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "dbDeleted": "Database deleted"
 }

@@ -33,9 +33,9 @@ const MaterialItemSchema = CollectionSchema(
       type: IsarType.object,
       target: r'MaterialSpecs',
     ),
-    r'name': PropertySchema(
+    r'nameKey': PropertySchema(
       id: 3,
-      name: r'name',
+      name: r'nameKey',
       type: IsarType.string,
     )
   },
@@ -50,7 +50,7 @@ const MaterialItemSchema = CollectionSchema(
   getId: _materialItemGetId,
   getLinks: _materialItemGetLinks,
   attach: _materialItemAttach,
-  version: '3.1.0+1',
+  version: '3.1.3',
 );
 
 int _materialItemEstimateSize(
@@ -59,26 +59,11 @@ int _materialItemEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.imagePath;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.materialSpecs;
-    if (value != null) {
-      bytesCount += 3 +
-          MaterialSpecsSchema.estimateSize(
-              value, allOffsets[MaterialSpecs]!, allOffsets);
-    }
-  }
-  {
-    final value = object.name;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.imagePath.length * 3;
+  bytesCount += 3 +
+      MaterialSpecsSchema.estimateSize(
+          object.materialSpecs, allOffsets[MaterialSpecs]!, allOffsets);
+  bytesCount += 3 + object.nameKey.length * 3;
   return bytesCount;
 }
 
@@ -96,7 +81,7 @@ void _materialItemSerialize(
     MaterialSpecsSchema.serialize,
     object.materialSpecs,
   );
-  writer.writeString(offsets[3], object.name);
+  writer.writeString(offsets[3], object.nameKey);
 }
 
 MaterialItem _materialItemDeserialize(
@@ -107,14 +92,15 @@ MaterialItem _materialItemDeserialize(
 ) {
   final object = MaterialItem();
   object.id = id;
-  object.imagePath = reader.readStringOrNull(offsets[0]);
-  object.isPreset = reader.readBoolOrNull(offsets[1]);
+  object.imagePath = reader.readString(offsets[0]);
+  object.isPreset = reader.readBool(offsets[1]);
   object.materialSpecs = reader.readObjectOrNull<MaterialSpecs>(
-    offsets[2],
-    MaterialSpecsSchema.deserialize,
-    allOffsets,
-  );
-  object.name = reader.readStringOrNull(offsets[3]);
+        offsets[2],
+        MaterialSpecsSchema.deserialize,
+        allOffsets,
+      ) ??
+      MaterialSpecs();
+  object.nameKey = reader.readString(offsets[3]);
   return object;
 }
 
@@ -126,17 +112,18 @@ P _materialItemDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
       return (reader.readObjectOrNull<MaterialSpecs>(
-        offset,
-        MaterialSpecsSchema.deserialize,
-        allOffsets,
-      )) as P;
+            offset,
+            MaterialSpecsSchema.deserialize,
+            allOffsets,
+          ) ??
+          MaterialSpecs()) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -290,26 +277,8 @@ extension MaterialItemQueryFilter
   }
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      imagePathIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'imagePath',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      imagePathIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'imagePath',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
       imagePathEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -323,7 +292,7 @@ extension MaterialItemQueryFilter
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
       imagePathGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -339,7 +308,7 @@ extension MaterialItemQueryFilter
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
       imagePathLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -355,8 +324,8 @@ extension MaterialItemQueryFilter
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
       imagePathBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -444,25 +413,7 @@ extension MaterialItemQueryFilter
   }
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      isPresetIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isPreset',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      isPresetIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isPreset',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      isPresetEqualTo(bool? value) {
+      isPresetEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isPreset',
@@ -472,47 +423,13 @@ extension MaterialItemQueryFilter
   }
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      materialSpecsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'materialSpecs',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      materialSpecsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'materialSpecs',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition> nameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'name',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      nameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'name',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition> nameEqualTo(
-    String? value, {
+      nameKeyEqualTo(
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
+        property: r'nameKey',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -520,46 +437,48 @@ extension MaterialItemQueryFilter
   }
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      nameGreaterThan(
-    String? value, {
+      nameKeyGreaterThan(
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'name',
+        property: r'nameKey',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition> nameLessThan(
-    String? value, {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
+      nameKeyLessThan(
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'name',
+        property: r'nameKey',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition> nameBetween(
-    String? lower,
-    String? upper, {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
+      nameKeyBetween(
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
+        property: r'nameKey',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -570,50 +489,49 @@ extension MaterialItemQueryFilter
   }
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      nameStartsWith(
+      nameKeyStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
+        property: r'nameKey',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
+      nameKeyEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
+        property: r'nameKey',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition> nameContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
+      nameKeyContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
+        property: r'nameKey',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition> nameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
+      nameKeyMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
+        property: r'nameKey',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -621,20 +539,20 @@ extension MaterialItemQueryFilter
   }
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      nameIsEmpty() {
+      nameKeyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
+        property: r'nameKey',
         value: '',
       ));
     });
   }
 
   QueryBuilder<MaterialItem, MaterialItem, QAfterFilterCondition>
-      nameIsNotEmpty() {
+      nameKeyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
+        property: r'nameKey',
         value: '',
       ));
     });
@@ -680,15 +598,15 @@ extension MaterialItemQuerySortBy
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> sortByName() {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> sortByNameKey() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
+      return query.addSortBy(r'nameKey', Sort.asc);
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> sortByNameKeyDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
+      return query.addSortBy(r'nameKey', Sort.desc);
     });
   }
 }
@@ -731,15 +649,15 @@ extension MaterialItemQuerySortThenBy
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> thenByName() {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> thenByNameKey() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
+      return query.addSortBy(r'nameKey', Sort.asc);
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<MaterialItem, MaterialItem, QAfterSortBy> thenByNameKeyDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
+      return query.addSortBy(r'nameKey', Sort.desc);
     });
   }
 }
@@ -759,10 +677,10 @@ extension MaterialItemQueryWhereDistinct
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialItem, QDistinct> distinctByName(
+  QueryBuilder<MaterialItem, MaterialItem, QDistinct> distinctByNameKey(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'nameKey', caseSensitive: caseSensitive);
     });
   }
 }
@@ -775,28 +693,28 @@ extension MaterialItemQueryProperty
     });
   }
 
-  QueryBuilder<MaterialItem, String?, QQueryOperations> imagePathProperty() {
+  QueryBuilder<MaterialItem, String, QQueryOperations> imagePathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'imagePath');
     });
   }
 
-  QueryBuilder<MaterialItem, bool?, QQueryOperations> isPresetProperty() {
+  QueryBuilder<MaterialItem, bool, QQueryOperations> isPresetProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isPreset');
     });
   }
 
-  QueryBuilder<MaterialItem, MaterialSpecs?, QQueryOperations>
+  QueryBuilder<MaterialItem, MaterialSpecs, QQueryOperations>
       materialSpecsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'materialSpecs');
     });
   }
 
-  QueryBuilder<MaterialItem, String?, QQueryOperations> nameProperty() {
+  QueryBuilder<MaterialItem, String, QQueryOperations> nameKeyProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'name');
+      return query.addPropertyName(r'nameKey');
     });
   }
 }
@@ -850,24 +768,9 @@ int _materialSpecsEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.chipLoad;
-    if (value != null) {
-      bytesCount += 3 + value.length * 8;
-    }
-  }
-  {
-    final value = object.depth;
-    if (value != null) {
-      bytesCount += 3 + value.length * 8;
-    }
-  }
-  {
-    final value = object.depthPerPass;
-    if (value != null) {
-      bytesCount += 3 + value.length * 8;
-    }
-  }
+  bytesCount += 3 + object.chipLoad.length * 8;
+  bytesCount += 3 + object.depth.length * 8;
+  bytesCount += 3 + object.depthPerPass.length * 8;
   return bytesCount;
 }
 
@@ -891,11 +794,11 @@ MaterialSpecs _materialSpecsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = MaterialSpecs();
-  object.chipLoad = reader.readDoubleList(offsets[0]);
-  object.cutSpeedCarbide = reader.readLongOrNull(offsets[1]);
-  object.cutSpeedHss = reader.readLongOrNull(offsets[2]);
-  object.depth = reader.readLongList(offsets[3]);
-  object.depthPerPass = reader.readDoubleList(offsets[4]);
+  object.chipLoad = reader.readDoubleList(offsets[0]) ?? [];
+  object.cutSpeedCarbide = reader.readLong(offsets[1]);
+  object.cutSpeedHss = reader.readLong(offsets[2]);
+  object.depth = reader.readLongList(offsets[3]) ?? [];
+  object.depthPerPass = reader.readDoubleList(offsets[4]) ?? [];
   return object;
 }
 
@@ -907,15 +810,15 @@ P _materialSpecsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleList(offset)) as P;
+      return (reader.readDoubleList(offset) ?? []) as P;
     case 1:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 3:
-      return (reader.readLongList(offset)) as P;
+      return (reader.readLongList(offset) ?? []) as P;
     case 4:
-      return (reader.readDoubleList(offset)) as P;
+      return (reader.readDoubleList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -923,24 +826,6 @@ P _materialSpecsDeserializeProp<P>(
 
 extension MaterialSpecsQueryFilter
     on QueryBuilder<MaterialSpecs, MaterialSpecs, QFilterCondition> {
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      chipLoadIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'chipLoad',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      chipLoadIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'chipLoad',
-      ));
-    });
-  }
-
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
       chipLoadElementEqualTo(
     double value, {
@@ -1097,25 +982,7 @@ extension MaterialSpecsQueryFilter
   }
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      cutSpeedCarbideIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'cutSpeedCarbide',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      cutSpeedCarbideIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'cutSpeedCarbide',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      cutSpeedCarbideEqualTo(int? value) {
+      cutSpeedCarbideEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'cutSpeedCarbide',
@@ -1126,7 +993,7 @@ extension MaterialSpecsQueryFilter
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
       cutSpeedCarbideGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1140,7 +1007,7 @@ extension MaterialSpecsQueryFilter
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
       cutSpeedCarbideLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1154,8 +1021,8 @@ extension MaterialSpecsQueryFilter
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
       cutSpeedCarbideBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1171,25 +1038,7 @@ extension MaterialSpecsQueryFilter
   }
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      cutSpeedHssIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'cutSpeedHss',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      cutSpeedHssIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'cutSpeedHss',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      cutSpeedHssEqualTo(int? value) {
+      cutSpeedHssEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'cutSpeedHss',
@@ -1200,7 +1049,7 @@ extension MaterialSpecsQueryFilter
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
       cutSpeedHssGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1214,7 +1063,7 @@ extension MaterialSpecsQueryFilter
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
       cutSpeedHssLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1228,8 +1077,8 @@ extension MaterialSpecsQueryFilter
 
   QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
       cutSpeedHssBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1240,24 +1089,6 @@ extension MaterialSpecsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      depthIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'depth',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      depthIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'depth',
       ));
     });
   }
@@ -1404,24 +1235,6 @@ extension MaterialSpecsQueryFilter
         upper,
         includeUpper,
       );
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      depthPerPassIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'depthPerPass',
-      ));
-    });
-  }
-
-  QueryBuilder<MaterialSpecs, MaterialSpecs, QAfterFilterCondition>
-      depthPerPassIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'depthPerPass',
-      ));
     });
   }
 

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'material_list/material_details_view.dart';
-import 'material_list/material_list_view.dart';
+import 'material/material_details_view.dart';
+import 'material/material_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
@@ -78,7 +78,7 @@ class App extends StatelessWidget {
                   case MaterialListView.routeName:
                     return const MaterialListView();
                   default:
-                    return const MainView();
+                    return const MainScreen();
                 }
               },
             );

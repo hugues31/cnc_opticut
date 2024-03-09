@@ -1,37 +1,43 @@
-import 'package:cnc_opticut/src/material_list/material_item.dart';
+import 'package:cnc_opticut/src/main/cut_settings.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../material_list/materials_preset_list.dart';
+import '../material/materials_preset_list.dart';
 import '../settings/settings_view.dart';
 import 'material_selector.dart';
 
-/// Displays a list of SampleItems.
-class MainView extends StatefulWidget {
-  const MainView({super.key});
+final cutSettingsProvider =
+    StateNotifierProvider<CutSettingsNotifier, CutSettings>((ref) {
+  // Initial material item. Ensure you fetch or define this appropriately.
+  final initialMaterialItem = softWood;
+
+  // Initial CutSettings
+  return CutSettingsNotifier(
+    CutSettings(
+      isHss: true,
+      diameter: 2.00,
+      poles: 1,
+      numberTeeth: 2,
+      materialItem: initialMaterialItem,
+    ),
+  );
+});
+
+class MainScreen extends ConsumerWidget {
+  const MainScreen({super.key});
 
   @override
-  State<MainView> createState() => _MainScreenState();
-  static const routeName = '/';
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(cutSettingsProvider);
 
-class _MainScreenState extends State<MainView> {
-  MaterialItem selectedMaterial = materialsPresetList[0];
-  bool isHss = true;
-
-  double d = 2.00;
-  int poles = 1;
-  int numberTeeth = 2;
-
-  @override
-  Widget build(BuildContext context) {
     double n = (1000 *
-            (isHss
-                ? selectedMaterial.cutSpeedHss
-                : selectedMaterial.cutSpeedCarbide)) /
-        (3.14159 * d);
+            (settings.isHss
+                ? settings.materialItem.materialSpecs.cutSpeedHss
+                : settings.materialItem.materialSpecs.cutSpeedCarbide)) /
+        (3.14159 * settings.diameter);
     return Scaffold(
       appBar: AppBar(
         title: const Text("CNC Opticut"),
@@ -59,11 +65,11 @@ class _MainScreenState extends State<MainView> {
         children: [
           // Extract here
           MaterialSelectionWidget(
-            selectedMaterial: selectedMaterial,
+            selectedMaterial: settings.materialItem,
             onMaterialSelected: (material) {
-              setState(() {
-                selectedMaterial = material;
-              });
+              ref
+                  .read(cutSettingsProvider.notifier)
+                  .update(materialItem: material);
             },
           ),
           // Dropdown button to choose hss / carbide
@@ -81,7 +87,9 @@ class _MainScreenState extends State<MainView> {
                 ), // Style your text as needed
               ),
               DropdownButton<String>(
-                value: isHss ? 'HSS' : AppLocalizations.of(context)!.carbide,
+                value: settings.isHss
+                    ? 'HSS'
+                    : AppLocalizations.of(context)!.carbide,
                 items: <String>['HSS', AppLocalizations.of(context)!.carbide]
                     .map((String value) {
                   return DropdownMenuItem<String>(
@@ -90,9 +98,9 @@ class _MainScreenState extends State<MainView> {
                   );
                 }).toList(),
                 onChanged: (String? value) {
-                  setState(() {
-                    isHss = value == 'HSS';
-                  });
+                  ref
+                      .read(cutSettingsProvider.notifier)
+                      .update(isHss: value == 'HSS' ? true : false);
                 },
               ),
             ],
@@ -112,20 +120,16 @@ class _MainScreenState extends State<MainView> {
               Expanded(
                 // Use Expanded to make the TextFormField take up the remaining space
                 child: TextFormField(
-                  initialValue: d.toString(),
+                  initialValue: settings.diameter.toString(),
                   decoration: const InputDecoration(
                     labelText: "d (mm)",
                     border: OutlineInputBorder(),
                   ),
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    setState(() {
-                      try {
-                        d = double.parse(value);
-                      } catch (e) {
-                        d = 2.0;
-                      }
-                    });
+                    ref
+                        .read(cutSettingsProvider.notifier)
+                        .update(diameter: double.parse(value));
                   },
                 ),
               ),
@@ -145,7 +149,7 @@ class _MainScreenState extends State<MainView> {
               Expanded(
                 // Use Expanded to make the TextFormField take up the remaining space
                 child: DropdownButton<int>(
-                  value: numberTeeth,
+                  value: settings.numberTeeth,
                   items: <int>[2, 4, 6, 8].map((int value) {
                     return DropdownMenuItem<int>(
                       value: value,
@@ -153,9 +157,9 @@ class _MainScreenState extends State<MainView> {
                     );
                   }).toList(),
                   onChanged: (int? value) {
-                    setState(() {
-                      numberTeeth = value!;
-                    });
+                    ref
+                        .read(cutSettingsProvider.notifier)
+                        .update(numberTeeth: value!);
                   },
                 ),
               ),
@@ -175,7 +179,7 @@ class _MainScreenState extends State<MainView> {
               Expanded(
                 // Use Expanded to make the TextFormField take up the remaining space
                 child: DropdownButton<int>(
-                  value: poles,
+                  value: settings.poles,
                   items: <int>[1, 2, 3, 4].map((int value) {
                     return DropdownMenuItem<int>(
                       value: value,
@@ -183,9 +187,9 @@ class _MainScreenState extends State<MainView> {
                     );
                   }).toList(),
                   onChanged: (int? value) {
-                    setState(() {
-                      poles = value!;
-                    });
+                    ref
+                        .read(cutSettingsProvider.notifier)
+                        .update(poles: value!);
                   },
                 ),
               ),
@@ -201,23 +205,25 @@ class _MainScreenState extends State<MainView> {
             height: 32,
           ),
           Math.tex(
-              ("${isHss ? 'V_c^{HSS}' : 'V_c^{Carbide}'}=${isHss ? selectedMaterial.cutSpeedHss : selectedMaterial.cutSpeedCarbide}"),
+              ("${settings.isHss ? 'V_c^{HSS}' : 'V_c^{Carbide}'}=${settings.isHss ? settings.materialItem.materialSpecs.cutSpeedHss : settings.materialItem.materialSpecs.cutSpeedCarbide}"),
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
-          Math.tex("d=$d",
+          Math.tex("d=${settings.diameter}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
-          Math.tex("Pp=$poles",
+          Math.tex("Pp=${settings.poles}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
-          Math.tex("f_z=${selectedMaterial.materialSpecs[poles]![0]}",
+          Math.tex(
+              "f_z=${settings.materialItem.materialSpecs.depth[settings.poles]}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
-          Math.tex("a_p=${selectedMaterial.materialSpecs[poles]![1]}",
+          Math.tex(
+              "a_p=${settings.materialItem.materialSpecs.depth[settings.poles]}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
@@ -226,7 +232,7 @@ class _MainScreenState extends State<MainView> {
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 12),
           Math.tex(
-              "= \\frac{1000 \\cdot ${isHss ? selectedMaterial.cutSpeedHss : selectedMaterial.cutSpeedCarbide}}{\\pi \\cdot $d}",
+              "= \\frac{1000 \\cdot ${settings.isHss ? settings.materialItem.materialSpecs.cutSpeedHss : settings.materialItem.materialSpecs.cutSpeedCarbide}}{\\pi \\cdot ${settings.diameter}}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 12),
@@ -239,12 +245,12 @@ class _MainScreenState extends State<MainView> {
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 12),
           Math.tex(
-              "= ${selectedMaterial.materialSpecs[poles]![0]} \\cdot ${n.toStringAsFixed(0)} \\cdot $numberTeeth",
+              "= ${settings.materialItem.materialSpecs.depth[settings.poles]} \\cdot ${n.toStringAsFixed(0)} \\cdot ${settings.numberTeeth}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 12),
           Math.tex(
-              " \\approx ${(selectedMaterial.materialSpecs[poles]![0] * n * numberTeeth).toStringAsFixed(0)}",
+              " \\approx ${(settings.materialItem.materialSpecs.depth[settings.poles] * n * settings.numberTeeth).toStringAsFixed(0)}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
         ],

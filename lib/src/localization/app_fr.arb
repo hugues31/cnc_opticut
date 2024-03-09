@@ -10,6 +10,12 @@
     "systemDefault": "Paramètres par défaut",
     "lightTheme": "Thème clair",
     "darkTheme": "Thème sombre",
+    "selectMaterialLabel": "{type, select, softWood {Bois tendre / Mdf} hardWood {Bois dur / CTP} brass {Laiton} other {no_name} }",
+    "@selectMaterialLabel": {
+        "placeholders": {
+            "type": {}
+        }
+    },
     "particleBoard": "Bois tendre / MDF",
     "wood": "Bois dur / CTP",
     "brass": "Laiton",
@@ -21,5 +27,10 @@
     "chooseNumberOfTeeth": "Choisissez le nombre de dents (Z) :",
     "cuttingParameters": "Paramètres de coupe",
     "drillingBitType": "Type de foret :",
-    "chooseDiameter": "Choisissez le diamètre :"
+    "chooseDiameter": "Choisissez le diamètre :",
+    "deleteDb": "Supprimer la base de donnée",
+    "deleteDbConfirmation": "Etes-vous sûr de vouloir supprimer la base de donnée ?",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "dbDeleted": "Base de donnée supprimée"
 }

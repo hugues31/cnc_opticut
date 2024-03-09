@@ -16,15 +16,17 @@ class MaterialDetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(item.name),
+        title: Text(item.getLocalizedName(context)),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text(AppLocalizations.of(context)!.materialDesc(item.name)),
-          Text(AppLocalizations.of(context)!.cuttingSpeedHSS(item.cutSpeedHss)),
           Text(AppLocalizations.of(context)!
-              .cuttingSpeedCarbide(item.cutSpeedCarbide)),
+              .materialDesc(item.getLocalizedName(context))),
+          Text(AppLocalizations.of(context)!
+              .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss)),
+          Text(AppLocalizations.of(context)!
+              .cuttingSpeedCarbide(item.materialSpecs.cutSpeedCarbide)),
           Padding(
             padding: const EdgeInsets.all(32.0),
             child: Container(
@@ -76,15 +78,16 @@ class MaterialDetailsView extends StatelessWidget {
                   ),
                 ),
               ],
-              rows: item.materialSpecs.entries
-                  .map((e) => DataRow(
-                        cells: [
-                          DataCell(Text(e.key.toString())),
-                          DataCell(Text(e.value[0].toString())),
-                          DataCell(Text(e.value[1].toString())),
-                        ],
-                      ))
-                  .toList())
+              rows: List<DataRow>.generate(
+                item.materialSpecs.depth.length,
+                (int index) => DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('${item.materialSpecs.depth[index]}')),
+                    DataCell(Text('${item.materialSpecs.chipLoad[index]}')),
+                    DataCell(Text('${item.materialSpecs.depthPerPass[index]}')),
+                  ],
+                ),
+              )),
         ],
       ),
     );

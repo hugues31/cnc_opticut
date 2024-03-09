@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'reset_settings.dart';
 import 'settings_controller.dart';
 
 /// Displays the various settings that can be customized by the user.
@@ -19,32 +20,37 @@ class SettingsView extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        // Glue the SettingsController to the theme selection DropdownButton.
-        //
-        // When a user selects a theme from the dropdown list, the
-        // SettingsController is updated, which rebuilds the MaterialApp.
-        child: DropdownButton<ThemeMode>(
-          // Read the selected themeMode from the controller
-          value: controller.themeMode,
-          // Call the updateThemeMode method any time the user selects a theme.
-          onChanged: controller.updateThemeMode,
-          items: [
-            DropdownMenuItem(
-              value: ThemeMode.system,
-              child: Text(AppLocalizations.of(context)!.systemDefault),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            // Glue the SettingsController to the theme selection DropdownButton.
+            //
+            // When a user selects a theme from the dropdown list, the
+            // SettingsController is updated, which rebuilds the MaterialApp.
+            child: DropdownButton<ThemeMode>(
+              // Read the selected themeMode from the controller
+              value: controller.themeMode,
+              // Call the updateThemeMode method any time the user selects a theme.
+              onChanged: controller.updateThemeMode,
+              items: [
+                DropdownMenuItem(
+                  value: ThemeMode.system,
+                  child: Text(AppLocalizations.of(context)!.systemDefault),
+                ),
+                DropdownMenuItem(
+                  value: ThemeMode.light,
+                  child: Text(AppLocalizations.of(context)!.lightTheme),
+                ),
+                DropdownMenuItem(
+                  value: ThemeMode.dark,
+                  child: Text(AppLocalizations.of(context)!.darkTheme),
+                )
+              ],
             ),
-            DropdownMenuItem(
-              value: ThemeMode.light,
-              child: Text(AppLocalizations.of(context)!.lightTheme),
-            ),
-            DropdownMenuItem(
-              value: ThemeMode.dark,
-              child: Text(AppLocalizations.of(context)!.darkTheme),
-            )
-          ],
-        ),
+          ),
+          const ResetSettings(),
+        ],
       ),
     );
   }
