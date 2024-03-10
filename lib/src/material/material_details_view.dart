@@ -1,5 +1,6 @@
 import 'package:cnc_opticut/src/database.dart';
 import 'package:cnc_opticut/src/material/material_detail_table.dart';
+import 'package:cnc_opticut/src/material/material_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -122,38 +123,7 @@ class MaterialDetailsView extends ConsumerWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Center(
-              // Center the container
-              child: ConstrainedBox(
-                // Constrain the maximum width
-                constraints: const BoxConstraints(
-                    maxWidth: 512), // Adjust the maxWidth as needed
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        32), // Match the ClipRRect's borderRadius
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black
-                            .withOpacity(0.5), // Shadow color with opacity
-                        spreadRadius: 0, // Spread radius
-                        blurRadius: 10, // Blur radius
-                        offset: const Offset(0, 4), // Shadow position
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(32),
-                    child: Image(
-                      image: AssetImage(item.imagePath),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          MaterialPreview(item: item),
           MaterialDetailTable(item: item)
         ],
       ),
