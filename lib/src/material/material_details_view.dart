@@ -124,24 +124,32 @@ class MaterialDetailsView extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(32.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                    32), // Match the ClipRRect's borderRadius
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black
-                        .withOpacity(0.5), // Shadow color with opacity
-                    spreadRadius: 0, // Spread radius
-                    blurRadius: 10, // Blur radius
-                    offset: const Offset(0, 4), // Shadow position
+            child: Center(
+              // Center the container
+              child: ConstrainedBox(
+                // Constrain the maximum width
+                constraints: const BoxConstraints(
+                    maxWidth: 512), // Adjust the maxWidth as needed
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                        32), // Match the ClipRRect's borderRadius
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black
+                            .withOpacity(0.5), // Shadow color with opacity
+                        spreadRadius: 0, // Spread radius
+                        blurRadius: 10, // Blur radius
+                        offset: const Offset(0, 4), // Shadow position
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(32),
-                child: Image(
-                  image: AssetImage(item.imagePath),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(32),
+                    child: Image(
+                      image: AssetImage(item.imagePath),
+                    ),
+                  ),
                 ),
               ),
             ),
