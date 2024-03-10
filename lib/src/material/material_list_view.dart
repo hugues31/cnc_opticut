@@ -26,7 +26,31 @@ class MaterialListView extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.restorablePushNamed(context, MaterialAdd.routeName);
+              // Open dialog to add a new material, ask for a name
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return FutureBuilder<List<MaterialItem>>(
+                    future: items,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<MaterialItem>>
+                            materialsListSnapshot) {
+                      if (materialsListSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (materialsListSnapshot.hasError) {
+                        return Center(
+                            child:
+                                Text('Error: ${materialsListSnapshot.error}'));
+                      } else {
+                        List<MaterialItem> items =
+                            materialsListSnapshot.data ?? [];
+                        return MaterialAdd(items: items);
+                      }
+                    },
+                  );
+                },
+              );
             },
           ),
         ],

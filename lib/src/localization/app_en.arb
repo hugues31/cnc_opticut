@@ -33,7 +33,7 @@
   "chooseNumberOfTeeth": "Choose the number of teeth (Z):",
   "cuttingParameters": "Cutting parameters",
   "drillingBitType": "Drilling bit type:",
-  "chooseDiameter": "Choose the diameter:",
+  "chooseDiameter": "Cutter diameter:",
   "deleteDb": "Delete database",
   "deleteDbConfirmation": "Are you sure you want to delete the database?",
   "cancel": "Cancel",
@@ -46,5 +46,11 @@
   "dInfo": "Diameter of the cutting part of the cutting tool.",
   "fzInfo": "Chip load : thickness of chip that a tooth can evacuate in one rotation.",
   "teeth": "teeth",
-  "deleteMaterialConfirmation": "Are you sure you want to delete the material '{name}'?"
+  "deleteMaterialConfirmation": "Are you sure you want to delete the material '{name}'?",
+  "addMaterial": "Add material",
+  "addMaterialPrompt": "Enter material name",
+  "add": "Add",
+  "materialAdded": "Material '{name}' added",
+  "pleaseEnterName": "Please enter a name",
+  "nameExists": "Name '{name}' already exists"
 }

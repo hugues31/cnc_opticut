@@ -33,7 +33,7 @@
     "chooseNumberOfTeeth": "Choisissez le nombre de dents (Z) :",
     "cuttingParameters": "Paramètres de coupe",
     "drillingBitType": "Type de foret :",
-    "chooseDiameter": "Choisissez le diamètre :",
+    "chooseDiameter": "Diamètre de la fraise 3:",
     "deleteDb": "Supprimer la base de donnée",
     "deleteDbConfirmation": "Etes-vous sûr de vouloir supprimer la base de donnée ?",
     "cancel": "Annuler",
@@ -46,5 +46,11 @@
     "dInfo": "Diamètre de la partie coupante de la fraise.",
     "fzInfo": "Avance par dent : épaisseur de copeau que peut évacuer une dent en une rotation.",
     "teeth": "dent",
-    "deleteMaterialConfirmation": "Etes-vous sûr de vouloir supprimer le matériau '{name}' ?"
+    "deleteMaterialConfirmation": "Etes-vous sûr de vouloir supprimer le matériau '{name}' ?",
+    "addMaterial": "Ajouter un matériau",
+    "addMaterialPrompt": "Nom du matériau",
+    "add": "Ajouter",
+    "materialAdded": "Matériau '{name}' créé.",
+    "pleaseEnterName": "Entrez un nom.",
+    "nameExists": "Le nom '{name}' existe déjà."
 }

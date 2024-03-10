@@ -8,6 +8,8 @@ Compute easily the best speed cutting for your CNC machine.
 
 - [X] Add a button to reset the settings
 - [ ] Make logo available for iOS and web
+- [ ] Bug: when deleting a material that is selected, the selection is
+kept in the main screen
 
 ## Getting Started
 

@@ -20,7 +20,7 @@ final cutSettingsProvider =
       isHss: true,
       diameter: 2.00,
       poles: 1,
-      numberTeeth: 2,
+      numberTeeth: 1,
       materialItem: initialMaterialItem,
     ),
   );
@@ -38,6 +38,7 @@ class MainScreen extends ConsumerWidget {
                 ? settings.materialItem.materialSpecs.cutSpeedHss
                 : settings.materialItem.materialSpecs.cutSpeedCarbide)) /
         (3.14159 * settings.diameter);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("CNC Opticut"),
@@ -150,7 +151,7 @@ class MainScreen extends ConsumerWidget {
                 // Use Expanded to make the TextFormField take up the remaining space
                 child: DropdownButton<int>(
                   value: settings.numberTeeth,
-                  items: <int>[2, 4, 6, 8].map((int value) {
+                  items: <int>[1, 2, 4, 6, 8].map((int value) {
                     return DropdownMenuItem<int>(
                       value: value,
                       child: Text(value.toString()),
@@ -210,10 +211,6 @@ class MainScreen extends ConsumerWidget {
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
           Math.tex("d=${settings.diameter}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 16),
-          Math.tex("Pp=${settings.poles}",
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
