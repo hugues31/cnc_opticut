@@ -27,8 +27,10 @@ Future<void> initDatabase(Isar isar) async {
 
   // Initialize the database with the default materials
   for (var material in materialsPresetList) {
-    // check if the material is already in the database by id
-    if (await isar.materialItems.where().idEqualTo(material.id).findFirst() ==
+    if (await isar.materialItems
+            .filter()
+            .nameKeyEqualTo(material.nameKey)
+            .findFirst() ==
         null) {
       await isar.writeTxn(() async {
         await isar.materialItems.put(material);

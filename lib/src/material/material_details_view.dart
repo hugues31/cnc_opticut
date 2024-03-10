@@ -29,6 +29,7 @@ class MaterialDetailsView extends StatelessWidget {
         children: [
           Text(AppLocalizations.of(context)!
               .materialDesc(item.getLocalizedName(context))),
+          Text(item.getLocalizedDesc(context)),
           Text(AppLocalizations.of(context)!
               .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss)),
           Text(AppLocalizations.of(context)!
@@ -60,32 +61,56 @@ class MaterialDetailsView extends StatelessWidget {
           DataTable(
               sortColumnIndex: 1,
               sortAscending: false,
-              columns: const <DataColumn>[
-                DataColumn(
+              columns: <DataColumn>[
+                const DataColumn(
                   label: Expanded(
                     child: Text(
-                      'mm',
+                      'd (mm)',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                  numeric: true,
+                ),
+                const DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Fz (mm)',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
                   numeric: true,
                 ),
                 DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Fz',
+                  label: Row(children: [
+                    Text(
+                      'Ap (mm)',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
-                  ),
-                  numeric: true,
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Ap',
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                    // Add info button
+                    IconButton(
+                      icon: const Icon(Icons.info),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Ap (mm)"),
+                              content: Text(AppLocalizations.of(context)!
+                                  .apInfo(item.getLocalizedName(context))),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(AppLocalizations.of(context)!.ok),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
-                  ),
+                  ]),
                   numeric: true,
                 ),
               ],

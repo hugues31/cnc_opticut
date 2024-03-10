@@ -16,6 +16,12 @@
             "type": {}
         }
     },
+    "selectMaterialDesc": "{type, select, softWood {Bois tendre : épicéa, pin sylvestre, sapin, aulne... Sans noeud.} hardWood {Chêne, érable, eucalyptus, hêtre... Sans noeud.} other {no_desc} }",
+    "@selectMaterialDesc": {
+        "placeholders": {
+            "type": {}
+        }
+    },
     "particleBoard": "Bois tendre / MDF",
     "wood": "Bois dur / CTP",
     "brass": "Laiton",
@@ -32,5 +38,7 @@
     "deleteDbConfirmation": "Etes-vous sûr de vouloir supprimer la base de donnée ?",
     "cancel": "Annuler",
     "delete": "Supprimer",
-    "dbDeleted": "Base de donnée supprimée"
+    "dbDeleted": "Base de donnée supprimée",
+    "ok": "OK",
+    "apInfo": "Depth of material machined at each pass."
 }

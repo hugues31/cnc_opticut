@@ -16,6 +16,12 @@
       "type": {}
     }
   },
+  "selectMaterialDesc": "{type, select, softWood {Spruce, Scots pine, fir, alder... Knotless.} hardWood {Oak, maple, eucalyptus, beech... Knotless.} other {no_desc} }",
+  "@selectMaterialDesc": {
+    "placeholders": {
+      "type": {}
+    }
+  },
   "particleBoard": "Soft wood / MDF",
   "wood": "Hard wood / CTP",
   "brass": "Brass",
@@ -32,5 +38,7 @@
   "deleteDbConfirmation": "Are you sure you want to delete the database?",
   "cancel": "Cancel",
   "delete": "Delete",
-  "dbDeleted": "Database deleted"
+  "dbDeleted": "Database deleted",
+  "ok": "OK",
+  "apInfo": "Depth of material machined at each pass."
 }

@@ -10,7 +10,7 @@ MaterialSpecs softWoodSpecs = MaterialSpecs()
 MaterialItem softWood = MaterialItem(
     nameKey: 'softWood',
     materialSpecs: softWoodSpecs,
-    imagePath: 'assets/images/particle_board_wood.png',
+    imagePath: 'assets/images/soft_wood_pine.png',
     isPreset: true);
 
 // Hard wood
@@ -23,7 +23,7 @@ MaterialSpecs hardWoodSpecs = MaterialSpecs()
 MaterialItem hardWood = MaterialItem(
     nameKey: 'hardWood',
     materialSpecs: hardWoodSpecs,
-    imagePath: 'assets/images/wood.png',
+    imagePath: 'assets/images/hard_wood_oak.png',
     isPreset: true);
 
 // PVC

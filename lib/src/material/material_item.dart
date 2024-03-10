@@ -17,12 +17,21 @@ class MaterialItem {
     String? localizedName =
         AppLocalizations.of(context)?.selectMaterialLabel(nameKey);
 
-    // if == no_name, return the nameKey
     if (localizedName == null || localizedName == 'no_name') {
       return nameKey;
     }
 
     return localizedName;
+  }
+
+  String getLocalizedDesc(BuildContext context) {
+    String? localizedDesc = AppLocalizations.of(context)?.selectMaterialDesc(nameKey);
+
+    if (localizedDesc == null || localizedDesc == 'no_desc') {
+      return '';
+    }
+
+    return localizedDesc;
   }
 
   MaterialItem({
