@@ -29,7 +29,7 @@ class ResetSettings extends ConsumerWidget {
                   },
                   child: Text(AppLocalizations.of(context)!.cancel),
                 ),
-                TextButton(
+                FilledButton(
                   onPressed: () {
                     resetDatabase(ref);
                     // Show confirmation snackbar
@@ -47,7 +47,8 @@ class ResetSettings extends ConsumerWidget {
           },
         );
       },
-      child: Text(AppLocalizations.of(context)!.deleteDb),
+      child: Text(AppLocalizations.of(context)!.deleteDb,
+          style: const TextStyle(color: Colors.red)),
     );
   }
 }

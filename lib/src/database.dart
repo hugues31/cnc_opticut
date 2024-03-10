@@ -103,3 +103,9 @@ Future<void> deleteMaterialFromDatabase(
   });
   ref.invalidate(databaseProvider);
 }
+
+Future<List<String>> getMaterialNameKeys(Ref ref) async {
+  final isar = await ref.watch(databaseProvider.future);
+  final materials = await isar.materialItems.where().findAll();
+  return materials.map((e) => e.nameKey).toList();
+}

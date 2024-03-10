@@ -24,6 +24,13 @@ class MaterialItem {
 
     return localizedName;
   }
+
+  MaterialItem({
+    required this.nameKey,
+    required this.materialSpecs,
+    required this.imagePath,
+    required this.isPreset,
+  });
 }
 
 @embedded

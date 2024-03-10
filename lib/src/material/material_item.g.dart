@@ -90,17 +90,18 @@ MaterialItem _materialItemDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = MaterialItem();
+  final object = MaterialItem(
+    imagePath: reader.readString(offsets[0]),
+    isPreset: reader.readBool(offsets[1]),
+    materialSpecs: reader.readObjectOrNull<MaterialSpecs>(
+          offsets[2],
+          MaterialSpecsSchema.deserialize,
+          allOffsets,
+        ) ??
+        MaterialSpecs(),
+    nameKey: reader.readString(offsets[3]),
+  );
   object.id = id;
-  object.imagePath = reader.readString(offsets[0]);
-  object.isPreset = reader.readBool(offsets[1]);
-  object.materialSpecs = reader.readObjectOrNull<MaterialSpecs>(
-        offsets[2],
-        MaterialSpecsSchema.deserialize,
-        allOffsets,
-      ) ??
-      MaterialSpecs();
-  object.nameKey = reader.readString(offsets[3]);
   return object;
 }
 

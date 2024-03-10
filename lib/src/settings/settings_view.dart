@@ -1,3 +1,5 @@
+import 'package:cnc_opticut/src/settings/change_theme.dart';
+import 'package:cnc_opticut/src/settings/version_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'reset_settings.dart';
@@ -20,36 +22,13 @@ class SettingsView extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
       ),
-      body: Column(
+      body: ListView(
+        padding: const EdgeInsets.all(16),
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            // Glue the SettingsController to the theme selection DropdownButton.
-            //
-            // When a user selects a theme from the dropdown list, the
-            // SettingsController is updated, which rebuilds the MaterialApp.
-            child: DropdownButton<ThemeMode>(
-              // Read the selected themeMode from the controller
-              value: controller.themeMode,
-              // Call the updateThemeMode method any time the user selects a theme.
-              onChanged: controller.updateThemeMode,
-              items: [
-                DropdownMenuItem(
-                  value: ThemeMode.system,
-                  child: Text(AppLocalizations.of(context)!.systemDefault),
-                ),
-                DropdownMenuItem(
-                  value: ThemeMode.light,
-                  child: Text(AppLocalizations.of(context)!.lightTheme),
-                ),
-                DropdownMenuItem(
-                  value: ThemeMode.dark,
-                  child: Text(AppLocalizations.of(context)!.darkTheme),
-                )
-              ],
-            ),
-          ),
+          ChangeTheme(controller: controller),
           const ResetSettings(),
+          const Divider(),
+          const VersionInfo(),
         ],
       ),
     );
