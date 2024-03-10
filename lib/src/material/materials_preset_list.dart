@@ -60,7 +60,7 @@ MaterialSpecs brassSpecs = MaterialSpecs()
   ..chipLoad = [0.005, 0.015, 0.025, 0.038, 0.05, 0.07] // Example values
   ..depthPerPass = [0.1, 0.35, 0.65, 0.9, 1.2, 1.5]; // Example values
 MaterialItem brass = MaterialItem(
-    nameKey: 'Brass',
+    nameKey: 'brass',
     materialSpecs: brassSpecs,
     imagePath: 'assets/images/brass.png',
     isPreset: true);

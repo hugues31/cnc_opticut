@@ -87,8 +87,14 @@ class MaterialListView extends ConsumerWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: const Text("Suppression"),
-                                        content: const Text("Confirmation"),
+                                        title: Text(
+                                            AppLocalizations.of(context)!
+                                                .delete),
+                                        content: Text(
+                                            AppLocalizations.of(context)!
+                                                .deleteMaterialConfirmation(
+                                                    item.getLocalizedName(
+                                                        context))),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
@@ -117,13 +123,6 @@ class MaterialListView extends ConsumerWidget {
                       ],
                     ),
                     onTap: () {
-                      // Navigate to the details page. If the user leaves and returns to
-                      // the app after it has been killed while running in the
-                      // background, the navigation stack is restored.
-                      // Navigator.restorablePushNamed(
-                      //   context,
-                      //   SampleItemDetailsView.routeName,
-                      // );
                       Navigator.pop(context, item);
                     },
                     onLongPress: () {

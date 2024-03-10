@@ -40,5 +40,11 @@
     "delete": "Supprimer",
     "dbDeleted": "Base de donnée supprimée",
     "ok": "OK",
-    "apInfo": "Depth of material machined at each pass."
+    "apInfo": "Profondeur de matière usinée à chaque passe.",
+    "formula": "Formule",
+    "unit": "Unité",
+    "dInfo": "Diamètre de la partie coupante de la fraise.",
+    "fzInfo": "Épaisseur de copeau que peut évacuer une dent en une rotation.",
+    "teeth": "dent",
+    "deleteMaterialConfirmation": "Etes-vous sûr de vouloir supprimer le matériau '{name}' ?"
 }

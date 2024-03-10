@@ -205,7 +205,7 @@ class MainScreen extends ConsumerWidget {
             height: 32,
           ),
           Math.tex(
-              ("${settings.isHss ? 'V_c^{HSS}' : 'V_c^{Carbide}'}=${settings.isHss ? settings.materialItem.materialSpecs.cutSpeedHss : settings.materialItem.materialSpecs.cutSpeedCarbide}"),
+              ("${settings.isHss ? 'V_c^{HSS}' : 'V_c^{${AppLocalizations.of(context)!.carbide}}'}=${settings.isHss ? settings.materialItem.materialSpecs.cutSpeedHss : settings.materialItem.materialSpecs.cutSpeedCarbide}"),
               mathStyle: MathStyle.display,
               textStyle: const TextStyle(fontSize: 24)),
           const SizedBox(height: 16),

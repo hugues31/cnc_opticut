@@ -40,5 +40,11 @@
   "delete": "Delete",
   "dbDeleted": "Database deleted",
   "ok": "OK",
-  "apInfo": "Depth of material machined at each pass."
+  "apInfo": "Depth of material machined at each pass.",
+  "formula": "Formula",
+  "unit": "Unit",
+  "dInfo": "Diameter of the cutting part of the cutting tool.",
+  "fzInfo": "Thickness of chip that a tooth can evacuate in one rotation.",
+  "teeth": "teeth",
+  "deleteMaterialConfirmation": "Are you sure you want to delete the material '{name}'?"
 }

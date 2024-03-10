@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_math_fork/flutter_math.dart';
 
 import 'material_item.dart';
 
@@ -25,15 +26,22 @@ class MaterialDetailsView extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
         children: [
-          Text(AppLocalizations.of(context)!
-              .materialDesc(item.getLocalizedName(context))),
-          Text(item.getLocalizedDesc(context)),
-          Text(AppLocalizations.of(context)!
-              .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss)),
-          Text(AppLocalizations.of(context)!
-              .cuttingSpeedCarbide(item.materialSpecs.cutSpeedCarbide)),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(AppLocalizations.of(context)!
+                    .materialDesc(item.getLocalizedName(context))),
+                Text(item.getLocalizedDesc(context)),
+                Text(AppLocalizations.of(context)!
+                    .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss)),
+                Text(AppLocalizations.of(context)!
+                    .cuttingSpeedCarbide(item.materialSpecs.cutSpeedCarbide)),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(32.0),
             child: Container(
@@ -61,28 +69,97 @@ class MaterialDetailsView extends StatelessWidget {
           DataTable(
               sortColumnIndex: 1,
               sortAscending: false,
+              columnSpacing: 0,
               columns: <DataColumn>[
-                const DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'd (mm)',
+                DataColumn(
+                  label: Row(mainAxisSize: MainAxisSize.min, children: [
+                    const Text(
+                      'D (mm)',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
-                  ),
-                  numeric: true,
-                ),
-                const DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Fz (mm)',
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                    // Add info button
+                    IconButton(
+                      icon: const Icon(Icons.info),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("D (mm)"),
+                              content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(AppLocalizations.of(context)!.dInfo),
+                                    const Divider(),
+                                    Text(
+                                        '${AppLocalizations.of(context)!.unit}: mm'),
+                                  ]),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(AppLocalizations.of(context)!.ok),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
-                  ),
+                  ]),
                   numeric: true,
                 ),
                 DataColumn(
                   label: Row(children: [
-                    Text(
+                    const Text(
+                      'Fz (mm)',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                    // Add info button
+                    IconButton(
+                      icon: const Icon(Icons.info),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("Fz (mm)"),
+                              content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(AppLocalizations.of(context)!.fzInfo),
+                                    const Divider(),
+                                    Text(
+                                        '${AppLocalizations.of(context)!.unit}: mm/${AppLocalizations.of(context)!.teeth}'),
+                                    const Divider(),
+                                    Text(
+                                        '${AppLocalizations.of(context)!.formula}:'),
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Math.tex(r'Fz = Vf / (Z * N)',
+                                            textStyle:
+                                                const TextStyle(fontSize: 20))),
+                                  ]),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(AppLocalizations.of(context)!.ok),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ]),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Row(children: [
+                    const Text(
                       'Ap (mm)',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
@@ -94,9 +171,23 @@ class MaterialDetailsView extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text("Ap (mm)"),
-                              content: Text(AppLocalizations.of(context)!
-                                  .apInfo(item.getLocalizedName(context))),
+                              title: const Text("Ap (mm)"),
+                              content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(AppLocalizations.of(context)!.apInfo),
+                                    const Divider(),
+                                    Text(
+                                        '${AppLocalizations.of(context)!.unit}: mm'),
+                                    const Divider(),
+                                    Text(
+                                        '${AppLocalizations.of(context)!.formula}:'),
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Math.tex(r'Ap = K * D',
+                                            textStyle:
+                                                const TextStyle(fontSize: 20))),
+                                  ]),
                               actions: [
                                 TextButton(
                                   onPressed: () {
