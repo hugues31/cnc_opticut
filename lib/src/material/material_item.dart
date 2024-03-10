@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,13 +27,20 @@ class MaterialItem {
   }
 
   String getLocalizedDesc(BuildContext context) {
-    String? localizedDesc = AppLocalizations.of(context)?.selectMaterialDesc(nameKey);
+    String? localizedDesc =
+        AppLocalizations.of(context)?.selectMaterialDesc(nameKey);
 
     if (localizedDesc == null || localizedDesc == 'no_desc') {
       return '';
     }
 
     return localizedDesc;
+  }
+
+  ImageProvider<Object> getMaterialImage() {
+    return imagePath.startsWith('assets/')
+        ? AssetImage(imagePath)
+        : Image.file(File(imagePath)).image;
   }
 
   MaterialItem({

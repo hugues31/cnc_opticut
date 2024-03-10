@@ -85,7 +85,7 @@ class MaterialListView extends ConsumerWidget {
                 return ListTile(
                     title: Text(item.getLocalizedName(context)),
                     leading: CircleAvatar(
-                      foregroundImage: AssetImage(item.imagePath),
+                      foregroundImage: item.getMaterialImage(),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,

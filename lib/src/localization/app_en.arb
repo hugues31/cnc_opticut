@@ -54,5 +54,9 @@
   "pleaseEnterName": "Please enter a name",
   "nameExists": "Name '{name}' already exists",
   "edit": "Edit",
-  "editDisabled": "Material is not editable"
+  "editDisabled": "Material is not editable",
+  "selectImageSource": "Select image source",
+  "selectImageSourceDesc": "Choose where to get the image from",
+  "camera": "Camera",
+  "gallery": "Gallery"
 }

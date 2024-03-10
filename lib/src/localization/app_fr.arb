@@ -54,5 +54,9 @@
     "pleaseEnterName": "Entrez un nom.",
     "nameExists": "Le nom '{name}' existe déjà.",
     "edit": "Éditer",
-    "editDisabled": "Matériau non éditable"
+    "editDisabled": "Matériau non éditable",
+    "selectImageSource": "Source de l'image",
+    "selectImageSourceDesc": "Choisissez la source de l'image pour le matériau",
+    "camera": "Caméra",
+    "gallery": "Gallerie"
 }
