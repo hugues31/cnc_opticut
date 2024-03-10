@@ -72,7 +72,7 @@ class MaterialAdd extends ConsumerWidget {
             // Use _formKey to check if the form is valid
             if (formKey.currentState!.validate()) {
               var material = getDefaultMaterial(nameController.text);
-              addMaterialToDatabase(ref, material);
+              addOrUpdateMaterialToDatabase(ref, material);
               ref.invalidate(databaseProvider);
               Navigator.of(context).pop();
             }

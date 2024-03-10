@@ -89,7 +89,8 @@ final databaseProvider = FutureProvider<Isar>((ref) async {
   return getDatabase();
 });
 
-Future<void> addMaterialToDatabase(WidgetRef ref, MaterialItem material) async {
+Future<void> addOrUpdateMaterialToDatabase(
+    WidgetRef ref, MaterialItem material) async {
   final isar = await ref.watch(databaseProvider.future);
   await isar.writeTxn(() async {
     await isar.materialItems.put(material);

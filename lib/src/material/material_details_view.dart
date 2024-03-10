@@ -1,30 +1,50 @@
+import 'package:cnc_opticut/src/database.dart';
+import 'package:cnc_opticut/src/material/material_detail_table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_math_fork/flutter_math.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'material_item.dart';
 
-/// Displays detailed information about a SampleItem.
-class MaterialDetailsView extends StatelessWidget {
+final editModeProvider = AutoDisposeStateProvider<bool>((ref) => false);
+
+class MaterialDetailsView extends ConsumerWidget {
   const MaterialDetailsView({super.key});
 
   static const routeName = '/material_item';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final MaterialItem item =
         ModalRoute.of(context)!.settings.arguments as MaterialItem;
+
+    // Use the editModeProvider to manage the edit mode state
+    final isEditMode = ref.watch(editModeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(item.getLocalizedName(context)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit),
+            icon: Icon(isEditMode ? Icons.save : Icons.edit),
             tooltip: item.isPreset
                 ? AppLocalizations.of(context)!.editDisabled
                 : AppLocalizations.of(context)!.edit,
-            onPressed: item.isPreset ? null : () {},
+            onPressed: item.isPreset
+                ? null
+                : () {
+                    // Toggle edit mode state
+                    final currentMode =
+                        ref.read(editModeProvider.notifier).state;
+                    ref.read(editModeProvider.notifier).state = !currentMode;
+
+                    // If in edit mode, save the changes to the database
+                    if (isEditMode) {
+                      // Save the changes to the database
+                      addOrUpdateMaterialToDatabase(ref, item);
+                    }
+                  },
           )
         ],
       ),
@@ -38,10 +58,67 @@ class MaterialDetailsView extends StatelessWidget {
                 Text(AppLocalizations.of(context)!
                     .materialDesc(item.getLocalizedName(context))),
                 Text(item.getLocalizedDesc(context)),
-                Text(AppLocalizations.of(context)!
-                    .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss)),
-                Text(AppLocalizations.of(context)!
-                    .cuttingSpeedCarbide(item.materialSpecs.cutSpeedCarbide)),
+                if (isEditMode)
+                  TextField(
+                    // readOnly: true,
+                    keyboardType: TextInputType.number,
+                    controller: TextEditingController(
+                        text: item.materialSpecs.cutSpeedHss.toString()),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!
+                          .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss),
+                    ),
+                    onChanged: (value) {
+                      // Check if the value is a valid number
+                      if (int.tryParse(value) == null) {
+                        return;
+                      }
+                      item.materialSpecs.cutSpeedHss = int.parse(value);
+                    },
+                    onSubmitted: (value) {
+                      // Check if the value is a valid number
+                      if (int.tryParse(value) == null) {
+                        return;
+                      }
+                      item.materialSpecs.cutSpeedHss = int.parse(value);
+                    },
+                  )
+                else
+                  Text(AppLocalizations.of(context)!
+                      .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss)),
+                if (isEditMode)
+                  TextField(
+                    // readOnly: true,
+                    keyboardType: TextInputType.number,
+                    controller: TextEditingController(
+                        text: item.materialSpecs.cutSpeedCarbide.toString()),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!
+                          .cuttingSpeedCarbide(
+                              item.materialSpecs.cutSpeedCarbide),
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^[0-9]+.?[0-9]*'))
+                    ],
+                    onChanged: (value) {
+                      // Check if the value is a valid number
+                      if (int.tryParse(value) == null) {
+                        return;
+                      }
+                      item.materialSpecs.cutSpeedCarbide = int.parse(value);
+                    },
+                    onSubmitted: (value) {
+                      // Check if the value is a valid number
+                      if (int.tryParse(value) == null) {
+                        return;
+                      }
+                      item.materialSpecs.cutSpeedCarbide = int.parse(value);
+                    },
+                  )
+                else
+                  Text(AppLocalizations.of(context)!
+                      .cuttingSpeedCarbide(item.materialSpecs.cutSpeedCarbide)),
               ],
             ),
           ),
@@ -69,169 +146,7 @@ class MaterialDetailsView extends StatelessWidget {
               ),
             ),
           ),
-          DataTable(
-              sortColumnIndex: 1,
-              sortAscending: false,
-              columnSpacing: 0,
-              columns: <DataColumn>[
-                DataColumn(
-                  label: Row(mainAxisSize: MainAxisSize.min, children: [
-                    const Text(
-                      'D (mm)',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                    // Add info button
-                    IconButton(
-                      icon: const Icon(Icons.info),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("D (mm)"),
-                              content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(AppLocalizations.of(context)!.dInfo),
-                                    const Divider(),
-                                    Text(
-                                        '${AppLocalizations.of(context)!.unit}: mm'),
-                                  ]),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(AppLocalizations.of(context)!.ok),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ]),
-                  numeric: true,
-                ),
-                DataColumn(
-                  label: Row(children: [
-                    const Text(
-                      'Fz (mm)',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                    // Add info button
-                    IconButton(
-                      icon: const Icon(Icons.info),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Fz (mm)"),
-                              content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(AppLocalizations.of(context)!.fzInfo),
-                                    const Divider(),
-                                    Text(
-                                        '${AppLocalizations.of(context)!.unit}: mm/${AppLocalizations.of(context)!.teeth}'),
-                                    const Divider(),
-                                    Text(
-                                        '${AppLocalizations.of(context)!.formula}:'),
-                                    Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Math.tex(r'Fz = Vf / (Z * N)',
-                                            textStyle:
-                                                const TextStyle(fontSize: 20))),
-                                  ]),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(AppLocalizations.of(context)!.ok),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ]),
-                  numeric: true,
-                ),
-                DataColumn(
-                  label: Row(children: [
-                    const Text(
-                      'Ap (mm)',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                    // Add info button
-                    IconButton(
-                      icon: const Icon(Icons.info),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Ap (mm)"),
-                              content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(AppLocalizations.of(context)!.apInfo),
-                                    const Divider(),
-                                    Text(
-                                        '${AppLocalizations.of(context)!.unit}: mm'),
-                                    const Divider(),
-                                    Text(
-                                        '${AppLocalizations.of(context)!.formula}:'),
-                                    Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Math.tex(r'Ap = K * D',
-                                            textStyle:
-                                                const TextStyle(fontSize: 20))),
-                                  ]),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(AppLocalizations.of(context)!.ok),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ]),
-                  numeric: true,
-                ),
-              ],
-              rows: List<DataRow>.generate(
-                item.materialSpecs.depth.length,
-                (int index) => DataRow(
-                  color: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.08);
-                    }
-                    if (index.isEven) {
-                      return Colors.grey.withOpacity(0.2);
-                    }
-                    return null; // Use default value for other states and odd rows.
-                  }),
-                  cells: <DataCell>[
-                    DataCell(Text('${item.materialSpecs.depth[index]}'),
-                        showEditIcon: true, onTap: () {}),
-                    DataCell(Text('${item.materialSpecs.chipLoad[index]}')),
-                    DataCell(Text('${item.materialSpecs.depthPerPass[index]}')),
-                  ],
-                ),
-              )),
+          MaterialDetailTable(item: item)
         ],
       ),
     );
