@@ -1,9 +1,12 @@
-# cnc_opticut
+# CNC Opticut
 
 Compute easily the best speed cutting for your CNC machine.
 
+![alt text](android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
+
 ## TODO
 
+- [X] Add a button to reset the settings
 - [ ] Make logo available for iOS and web
 
 ## Getting Started
