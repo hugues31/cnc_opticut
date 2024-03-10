@@ -38,6 +38,14 @@ Formula are rendered using the `flutter_math_fork` package and the LaTeX
 syntax (quick syntax reference
 [here](https://quickref.me/latex.html)).
 
+## Publishing on the Play Store
+
+We need to modify `pubspec.yaml` and increment the version number. 1.1.0+2 --> 1.2.0+3 for example.
+And then run:
+```bash
+flutter build appbundle
+```
+
 
 ## Localization
 

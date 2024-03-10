@@ -44,7 +44,7 @@ MaterialSpecs pomPmmaPcSpecs = MaterialSpecs()
   ..cutSpeedHss = 130 // Example value
   ..cutSpeedCarbide = 260 // Example value
   ..depth = [1, 2, 3, 4, 5, 6] // Example values
-  ..chipLoad = [0.01, 0.022, 0.035, 0.5, 0.07, 0.1] // Example values
+  ..chipLoad = [0.01, 0.022, 0.035, 0.05, 0.07, 0.1] // Example values
   ..depthPerPass = [0.2, 0.6, 1.2, 2, 3.2, 4.8]; // Example values
 MaterialItem pomPmmaPc = MaterialItem(
     nameKey: 'POM/PMMA/PC',
