@@ -10,13 +10,13 @@
   "systemDefault": "System default",
   "lightTheme": "Light theme",
   "darkTheme": "Dark theme",
-  "selectMaterialLabel": "{type, select, softWood {Soft Wood / Mdf} hardWood {Hard Wood / CTP} brass {Brass} other {no_name} }",
+  "selectMaterialLabel": "{type, select, softWood {Soft Wood / Mdf} hardWood {Hard Wood / CTP} brass {Brass} Aluminium_Lub_Si_Less_Than_10 {Aluminium+Lub, Si<10%} Alpax_Lub_Si_Greater_Than_10 {Alpax+Lub, Si>10%} other {no_name} }",
   "@selectMaterialLabel": {
     "placeholders": {
       "type": {}
     }
   },
-  "selectMaterialDesc": "{type, select, softWood {Spruce, Scots pine, fir, alder... Knotless.} hardWood {Oak, maple, eucalyptus, beech... Knotless.} other {no_desc} }",
+  "selectMaterialDesc": "{type, select, softWood {Spruce, Scots pine, fir, alder... Knotless.} hardWood {Oak, maple, eucalyptus, beech... Knotless.} PVC {Expanded PVC. Use a special PVC cutter.} POM {POM/PMMA/PC. Use a special POM/PMMA/PC cutter.} Aluminium_Lub_Si_Less_Than_10 {Aluminum with lubrication where the silicon content in the alloy does not exceed 10%. Only for very rigid machines.} Alpax_Lub_Si_Greater_Than_10 {Aluminum or Alpax with lubrication where the silicon content in the alloy is greater than 10%. Only for very rigid machines.} other {no_desc} }",
   "@selectMaterialDesc": {
     "placeholders": {
       "type": {}
@@ -40,11 +40,11 @@
   "delete": "Delete",
   "dbDeleted": "Database deleted",
   "ok": "OK",
-  "apInfo": "Depth of material machined at each pass.",
+  "apInfo": "Depth per pass : depth of material machined at each pass.",
   "formula": "Formula",
   "unit": "Unit",
   "dInfo": "Diameter of the cutting part of the cutting tool.",
-  "fzInfo": "Thickness of chip that a tooth can evacuate in one rotation.",
+  "fzInfo": "Chip load : thickness of chip that a tooth can evacuate in one rotation.",
   "teeth": "teeth",
   "deleteMaterialConfirmation": "Are you sure you want to delete the material '{name}'?"
 }

@@ -10,13 +10,13 @@
     "systemDefault": "Paramètres par défaut",
     "lightTheme": "Thème clair",
     "darkTheme": "Thème sombre",
-    "selectMaterialLabel": "{type, select, softWood {Bois tendre / Mdf} hardWood {Bois dur / CTP} brass {Laiton} other {no_name} }",
+    "selectMaterialLabel": "{type, select, softWood {Bois tendre / Mdf} hardWood {Bois dur / CTP} brass {Laiton} Aluminium_Lub_Si_Less_Than_10 {Aluminium+Lub, Si<10%} Alpax_Lub_Si_Greater_Than_10 {Alpax+Lub, Si>10%} other {no_name} }",
     "@selectMaterialLabel": {
         "placeholders": {
             "type": {}
         }
     },
-    "selectMaterialDesc": "{type, select, softWood {Bois tendre : épicéa, pin sylvestre, sapin, aulne... Sans noeud.} hardWood {Chêne, érable, eucalyptus, hêtre... Sans noeud.} other {no_desc} }",
+    "selectMaterialDesc": "{type, select, softWood {Bois tendre : épicéa, pin sylvestre, sapin, aulne... Sans noeud.} hardWood {Chêne, érable, eucalyptus, hêtre... Sans noeud.} PVC {PVC expansé. Utiliser une fraise spéciale PVC.} POM {POM/PMMA/PC. Utiliser une fraise spéciale POM/PMMA/PC.} Aluminium_Lub_Si_Less_Than_10 {Aluminium avec lubrification dont le taux de silicium dans l'alliage ne dépasse pas 10%. Seulement pour machine très rigide.} Alpax_Lub_Si_Greater_Than_10 {Aluminium ou Alpax avec lubrication dont le taux de silicium dans l'alliage dépasse 10%. Seulement pour machine très rigide.} other {no_desc} }",
     "@selectMaterialDesc": {
         "placeholders": {
             "type": {}
@@ -40,11 +40,11 @@
     "delete": "Supprimer",
     "dbDeleted": "Base de donnée supprimée",
     "ok": "OK",
-    "apInfo": "Profondeur de matière usinée à chaque passe.",
+    "apInfo": "Profondeur de coupe : profondeur de matière usinée à chaque passe.",
     "formula": "Formule",
     "unit": "Unité",
     "dInfo": "Diamètre de la partie coupante de la fraise.",
-    "fzInfo": "Épaisseur de copeau que peut évacuer une dent en une rotation.",
+    "fzInfo": "Avance par dent : épaisseur de copeau que peut évacuer une dent en une rotation.",
     "teeth": "dent",
     "deleteMaterialConfirmation": "Etes-vous sûr de vouloir supprimer le matériau '{name}' ?"
 }

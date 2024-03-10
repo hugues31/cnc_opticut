@@ -47,7 +47,7 @@ MaterialSpecs pomPmmaPcSpecs = MaterialSpecs()
   ..chipLoad = [0.01, 0.022, 0.035, 0.05, 0.07, 0.1]
   ..depthPerPass = [0.2, 0.6, 1.2, 2, 3.2, 4.8];
 MaterialItem pomPmmaPc = MaterialItem(
-    nameKey: 'POM/PMMA/PC',
+    nameKey: 'POM',
     materialSpecs: pomPmmaPcSpecs,
     imagePath: 'assets/images/pmma.png',
     isPreset: true);
@@ -73,7 +73,7 @@ MaterialSpecs aluminiumLubSiLessThan10Specs = MaterialSpecs()
   ..chipLoad = [0.005, 0.015, 0.025, 0.035, 0.045, 0.06]
   ..depthPerPass = [0.05, 0.3, 0.6, 0.9, 1.2, 1.5];
 MaterialItem aluminiumLubSiLessThan10 = MaterialItem(
-    nameKey: 'Aluminium+Lub, Si <10%',
+    nameKey: 'Aluminium_Lub_Si_Less_Than_10',
     materialSpecs: aluminiumLubSiLessThan10Specs,
     imagePath: 'assets/images/aluminium.png',
     isPreset: true);
@@ -86,7 +86,7 @@ MaterialSpecs alpaxLubSiGreaterThan10Specs = MaterialSpecs()
   ..chipLoad = [0.001, 0.006, 0.013, 0.02, 0.03, 0.04]
   ..depthPerPass = [0.05, 0.15, 0.3, 0.5, 0.7, 0.9];
 MaterialItem alpaxLubSiGreaterThan10 = MaterialItem(
-    nameKey: 'Alpax+Lub, Si >10%',
+    nameKey: 'Alpax_Lub_Si_Greater_Than_10',
     materialSpecs: alpaxLubSiGreaterThan10Specs,
     imagePath: 'assets/images/aluminium.png',
     isPreset: true);
