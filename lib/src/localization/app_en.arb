@@ -52,5 +52,7 @@
   "add": "Add",
   "materialAdded": "Material '{name}' added",
   "pleaseEnterName": "Please enter a name",
-  "nameExists": "Name '{name}' already exists"
+  "nameExists": "Name '{name}' already exists",
+  "edit": "Edit",
+  "editDisabled": "Material is not editable"
 }

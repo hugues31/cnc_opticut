@@ -21,6 +21,9 @@ class MaterialDetailsView extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
+            tooltip: item.isPreset
+                ? AppLocalizations.of(context)!.editDisabled
+                : AppLocalizations.of(context)!.edit,
             onPressed: item.isPreset ? null : () {},
           )
         ],
