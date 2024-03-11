@@ -36,16 +36,11 @@ class MaterialDetailTable extends ConsumerWidget {
       // Below is a placeholder logic
       // Example for columnIndex 0:
       if (columnIndex == 0) {
-        item.materialSpecs.depth
-            .sort((a, b) => ascending ? a.compareTo(b) : b.compareTo(a));
-      }
-      if (columnIndex == 1) {
-        item.materialSpecs.chipLoad
-            .sort((a, b) => ascending ? a.compareTo(b) : b.compareTo(a));
-      }
-      if (columnIndex == 2) {
-        item.materialSpecs.depthPerPass
-            .sort((a, b) => ascending ? a.compareTo(b) : b.compareTo(a));
+        if (ascending) {
+          item.materialCuttingChart.sort((a, b) => a.depth.compareTo(b.depth));
+        } else {
+          item.materialCuttingChart.sort((a, b) => b.depth.compareTo(a.depth));
+        }
       }
 
       // After sorting, update the UI by setting the new state
@@ -192,7 +187,7 @@ class MaterialDetailTable extends ConsumerWidget {
           ),
         ],
         rows: List<DataRow>.generate(
-          item.materialSpecs.depth.length,
+          item.materialCuttingChart.length,
           (int index) => DataRow(
             color: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
@@ -210,43 +205,22 @@ class MaterialDetailTable extends ConsumerWidget {
                       TextField(
                         keyboardType: TextInputType.number,
                         controller: TextEditingController(
-                            text: item.materialSpecs.depth[index].toString()),
+                            text: item.materialCuttingChart[index].depth
+                                .toString()),
                         onChanged: (value) {
                           // Check if the value is a valid number
                           if (int.tryParse(value) == null) {
                             return;
                           }
-                          item.materialSpecs.depth[index] = int.parse(value);
-                        },
-                        onSubmitted: (value) {
-                          // Check if the value is a valid number
-                          if (int.tryParse(value) == null) {
-                            return;
-                          }
-                          item.materialSpecs.depth[index] = int.parse(value);
-                        },
-                      ),
-                    ),
-                    DataCell(
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        controller: TextEditingController(
-                            text:
-                                item.materialSpecs.chipLoad[index].toString()),
-                        onChanged: (value) {
-                          // Check if the value is a valid number
-                          if (double.tryParse(value) == null) {
-                            return;
-                          }
-                          item.materialSpecs.chipLoad[index] =
+                          item.materialCuttingChart[index].depth =
                               double.parse(value);
                         },
                         onSubmitted: (value) {
                           // Check if the value is a valid number
-                          if (double.tryParse(value) == null) {
+                          if (int.tryParse(value) == null) {
                             return;
                           }
-                          item.materialSpecs.chipLoad[index] =
+                          item.materialCuttingChart[index].depth =
                               double.parse(value);
                         },
                       ),
@@ -255,14 +229,14 @@ class MaterialDetailTable extends ConsumerWidget {
                       TextField(
                         keyboardType: TextInputType.number,
                         controller: TextEditingController(
-                            text: item.materialSpecs.depthPerPass[index]
+                            text: item.materialCuttingChart[index].chipLoad
                                 .toString()),
                         onChanged: (value) {
                           // Check if the value is a valid number
                           if (double.tryParse(value) == null) {
                             return;
                           }
-                          item.materialSpecs.depthPerPass[index] =
+                          item.materialCuttingChart[index].chipLoad =
                               double.parse(value);
                         },
                         onSubmitted: (value) {
@@ -270,7 +244,31 @@ class MaterialDetailTable extends ConsumerWidget {
                           if (double.tryParse(value) == null) {
                             return;
                           }
-                          item.materialSpecs.depthPerPass[index] =
+                          item.materialCuttingChart[index].chipLoad =
+                              double.parse(value);
+                        },
+                      ),
+                    ),
+                    DataCell(
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        controller: TextEditingController(
+                            text: item.materialCuttingChart[index].depthPerPass
+                                .toString()),
+                        onChanged: (value) {
+                          // Check if the value is a valid number
+                          if (double.tryParse(value) == null) {
+                            return;
+                          }
+                          item.materialCuttingChart[index].depthPerPass =
+                              double.parse(value);
+                        },
+                        onSubmitted: (value) {
+                          // Check if the value is a valid number
+                          if (double.tryParse(value) == null) {
+                            return;
+                          }
+                          item.materialCuttingChart[index].depthPerPass =
                               double.parse(value);
                         },
                       ),
@@ -278,10 +276,12 @@ class MaterialDetailTable extends ConsumerWidget {
                   ]
                 : <DataCell>[
                     DataCell(
-                      Text('${item.materialSpecs.depth[index]}'),
+                      Text('${item.materialCuttingChart[index].depth}'),
                     ),
-                    DataCell(Text('${item.materialSpecs.chipLoad[index]}')),
-                    DataCell(Text('${item.materialSpecs.depthPerPass[index]}')),
+                    DataCell(
+                        Text('${item.materialCuttingChart[index].chipLoad}')),
+                    DataCell(Text(
+                        '${item.materialCuttingChart[index].depthPerPass}')),
                   ],
           ),
         ));

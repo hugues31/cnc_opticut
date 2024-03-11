@@ -14,6 +14,8 @@ class ResetSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final databaseHelper = ref.watch(databaseHelperProvider);
+
     return OutlinedButton(
       onPressed: () {
         showDialog(
@@ -31,7 +33,7 @@ class ResetSettings extends ConsumerWidget {
                 ),
                 FilledButton(
                   onPressed: () {
-                    resetDatabase(ref);
+                    databaseHelper.resetDB();
                     // Show confirmation snackbar
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

@@ -20,6 +20,8 @@ class MaterialDetailsView extends ConsumerWidget {
     final MaterialItem item =
         ModalRoute.of(context)!.settings.arguments as MaterialItem;
 
+    final db = ref.watch(databaseHelperProvider);
+
     // Use the editModeProvider to manage the edit mode state
     final isEditMode = ref.watch(editModeProvider);
 
@@ -43,7 +45,7 @@ class MaterialDetailsView extends ConsumerWidget {
                     // If in edit mode, save the changes to the database
                     if (isEditMode) {
                       // Save the changes to the database
-                      addOrUpdateMaterialToDatabase(ref, item);
+                      db.addOrUpdateMaterialToDatabase(item);
                     }
                   },
           )
@@ -64,39 +66,38 @@ class MaterialDetailsView extends ConsumerWidget {
                     // readOnly: true,
                     keyboardType: TextInputType.number,
                     controller: TextEditingController(
-                        text: item.materialSpecs.cutSpeedHss.toString()),
+                        text: item.cutSpeedHss.toString()),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!
-                          .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss),
+                          .cuttingSpeedHSS(item.cutSpeedHss),
                     ),
                     onChanged: (value) {
                       // Check if the value is a valid number
                       if (int.tryParse(value) == null) {
                         return;
                       }
-                      item.materialSpecs.cutSpeedHss = int.parse(value);
+                      item.cutSpeedHss = int.parse(value);
                     },
                     onSubmitted: (value) {
                       // Check if the value is a valid number
                       if (int.tryParse(value) == null) {
                         return;
                       }
-                      item.materialSpecs.cutSpeedHss = int.parse(value);
+                      item.cutSpeedHss = int.parse(value);
                     },
                   )
                 else
                   Text(AppLocalizations.of(context)!
-                      .cuttingSpeedHSS(item.materialSpecs.cutSpeedHss)),
+                      .cuttingSpeedHSS(item.cutSpeedHss)),
                 if (isEditMode)
                   TextField(
                     // readOnly: true,
                     keyboardType: TextInputType.number,
                     controller: TextEditingController(
-                        text: item.materialSpecs.cutSpeedCarbide.toString()),
+                        text: item.cutSpeedCarbide.toString()),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!
-                          .cuttingSpeedCarbide(
-                              item.materialSpecs.cutSpeedCarbide),
+                          .cuttingSpeedCarbide(item.cutSpeedCarbide),
                     ),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
@@ -107,19 +108,19 @@ class MaterialDetailsView extends ConsumerWidget {
                       if (int.tryParse(value) == null) {
                         return;
                       }
-                      item.materialSpecs.cutSpeedCarbide = int.parse(value);
+                      item.cutSpeedCarbide = int.parse(value);
                     },
                     onSubmitted: (value) {
                       // Check if the value is a valid number
                       if (int.tryParse(value) == null) {
                         return;
                       }
-                      item.materialSpecs.cutSpeedCarbide = int.parse(value);
+                      item.cutSpeedCarbide = int.parse(value);
                     },
                   )
                 else
                   Text(AppLocalizations.of(context)!
-                      .cuttingSpeedCarbide(item.materialSpecs.cutSpeedCarbide)),
+                      .cuttingSpeedCarbide(item.cutSpeedCarbide)),
               ],
             ),
           ),

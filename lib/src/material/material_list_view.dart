@@ -18,7 +18,10 @@ class MaterialListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Future<List<MaterialItem>> items = getMaterialsFromDatabase(ref);
+    final db = ref.watch(databaseHelperProvider);
+
+    Future<List<MaterialItem>> items = db.getMaterialsFromDatabase();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.materialsList),
@@ -131,8 +134,8 @@ class MaterialListView extends ConsumerWidget {
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop();
-                                              deleteMaterialFromDatabase(
-                                                  ref, item);
+                                              db.deleteMaterialFromDatabase(
+                                                  item);
                                             },
                                             child: Text(
                                                 AppLocalizations.of(context)!

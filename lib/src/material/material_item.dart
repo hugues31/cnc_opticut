@@ -1,19 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-part 'material_item.g.dart';
-
-@collection
 class MaterialItem {
-  Id id = Isar.autoIncrement;
-
-  late String nameKey;
-  late MaterialSpecs materialSpecs;
-  late String imagePath; // Changed to imagePath
-  late bool isPreset;
+  String nameKey;
+  List<MaterialCuttingChartRow> materialCuttingChart;
+  String imagePath;
+  bool isPreset;
+  int cutSpeedHss;
+  int cutSpeedCarbide;
 
   String getLocalizedName(BuildContext context) {
     String? localizedName =
@@ -45,17 +41,22 @@ class MaterialItem {
 
   MaterialItem({
     required this.nameKey,
-    required this.materialSpecs,
+    required this.materialCuttingChart,
     required this.imagePath,
     required this.isPreset,
+    required this.cutSpeedHss,
+    required this.cutSpeedCarbide,
   });
 }
 
-@embedded
-class MaterialSpecs {
-  late int cutSpeedHss;
-  late int cutSpeedCarbide;
-  late List<int> depth;
-  late List<double> chipLoad;
-  late List<double> depthPerPass;
+class MaterialCuttingChartRow {
+  double depth;
+  double chipLoad;
+  double depthPerPass;
+
+  MaterialCuttingChartRow(
+    this.depth,
+    this.chipLoad,
+    this.depthPerPass,
+  );
 }

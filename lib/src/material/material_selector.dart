@@ -1,8 +1,8 @@
 // A custom widget for material selection
 import 'package:flutter/material.dart';
 
-import '../material/material_item.dart';
-import '../material/material_list_view.dart';
+import 'material_item.dart';
+import 'material_list_view.dart';
 
 class MaterialSelectionWidget extends StatelessWidget {
   final MaterialItem selectedMaterial;
@@ -45,25 +45,24 @@ class MaterialSelectionWidget extends StatelessWidget {
           child: ListTile(
             title: Text(selectedMaterial.getLocalizedName(context),
                 overflow: TextOverflow.fade, softWrap: false),
-            subtitle: const Text('Quick description of a material'),
+            subtitle: const Text(
+                'Quick description of a material in multiple lines.\nn=3, d=2.4, v=1000'),
             leading: const Icon(Icons.mark_as_unread),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(32),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minWidth: 32,
-                        minHeight: 32,
-                        maxWidth: 64,
-                        maxHeight: 64,
-                      ),
-                      child: Image(image: selectedMaterial.getMaterialImage()),
-                    )),
-                const Icon(Icons.arrow_forward, size: 40),
-              ],
-            ),
+            trailing: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(24)),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 32,
+                    minHeight: 32,
+                    maxWidth: 64,
+                    maxHeight: 64,
+                  ),
+                  child: Image(image: selectedMaterial.getMaterialImage()),
+                )),
             // contentPadding: EdgeInsets.all(10),
           ),
         ),

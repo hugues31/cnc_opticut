@@ -5,19 +5,20 @@ import 'package:cnc_opticut/src/database.dart';
 import 'material_item.dart';
 
 MaterialItem getDefaultMaterial(String nameKey) {
-  MaterialSpecs specs = MaterialSpecs()
-    ..cutSpeedHss = 250
-    ..cutSpeedCarbide = 500
-    ..depth = [1, 2, 3, 4, 5, 6]
-    ..chipLoad = [0.01, 0.04, 0.08, 0.13, 0.2, 0.3]
-    ..depthPerPass = [0.3, 1, 2, 3, 4.1, 5.8];
-  MaterialItem defaultMaterial = MaterialItem(
+  return MaterialItem(
       nameKey: nameKey,
-      materialSpecs: specs,
-      imagePath: 'assets/images/custom_material.png',
-      isPreset: false);
-
-  return defaultMaterial;
+      materialCuttingChart: [
+        MaterialCuttingChartRow(1, 0.01, 0.3),
+        MaterialCuttingChartRow(2, 0.04, 1),
+        MaterialCuttingChartRow(3, 0.08, 2),
+        MaterialCuttingChartRow(4, 0.13, 3),
+        MaterialCuttingChartRow(5, 0.2, 4.1),
+        MaterialCuttingChartRow(6, 0.3, 5.8),
+      ],
+      imagePath: 'assets/images/materials/custom_material.png',
+      isPreset: false,
+      cutSpeedHss: 250,
+      cutSpeedCarbide: 500);
 }
 
 class MaterialAdd extends ConsumerWidget {
@@ -30,6 +31,8 @@ class MaterialAdd extends ConsumerWidget {
     final TextEditingController nameController = TextEditingController();
     // Create a GlobalKey for the Form widget
     final formKey = GlobalKey<FormState>();
+
+    final db = ref.watch(databaseHelperProvider);
 
     return AlertDialog(
       title: Text(AppLocalizations.of(context)!.addMaterial),
@@ -72,8 +75,8 @@ class MaterialAdd extends ConsumerWidget {
             // Use _formKey to check if the form is valid
             if (formKey.currentState!.validate()) {
               var material = getDefaultMaterial(nameController.text);
-              addOrUpdateMaterialToDatabase(ref, material);
-              ref.invalidate(databaseProvider);
+              db.addOrUpdateMaterialToDatabase(material);
+              ref.invalidate(databaseHelperProvider);
               Navigator.of(context).pop();
             }
           },

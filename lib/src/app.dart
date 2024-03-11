@@ -77,6 +77,7 @@ class App extends StatelessWidget {
                     return const MaterialDetailsView();
                   case MaterialListView.routeName:
                     return const MaterialListView();
+
                   default:
                     return const MainScreen();
                 }
