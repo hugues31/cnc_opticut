@@ -35,12 +35,10 @@ class MaterialDetailTable extends ConsumerWidget {
       // The sorting logic will depend on the specifics of your data
       // Below is a placeholder logic
       // Example for columnIndex 0:
-      if (columnIndex == 0) {
-        if (ascending) {
-          item.materialCuttingChart.sort((a, b) => a.depth.compareTo(b.depth));
-        } else {
-          item.materialCuttingChart.sort((a, b) => b.depth.compareTo(a.depth));
-        }
+      if (ascending) {
+        item.materialCuttingChart.sort((a, b) => a.depth.compareTo(b.depth));
+      } else {
+        item.materialCuttingChart.sort((a, b) => b.depth.compareTo(a.depth));
       }
 
       // After sorting, update the UI by setting the new state
