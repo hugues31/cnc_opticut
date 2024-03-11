@@ -16,45 +16,58 @@ class MaterialSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // Text(AppLocalizations.of(context)!.materialSelection),
-        // const SizedBox(width: 12),
-        ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1200),
-            child: ElevatedButton(
-              onPressed: () async {
-                MaterialItem? result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MaterialListView()),
-                );
-                if (result != null) {
-                  onMaterialSelected(result);
-                }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                      child: Text(selectedMaterial.getLocalizedName(context),
-                          overflow: TextOverflow.fade, softWrap: false)),
-                  const SizedBox(width: 10),
-                  ClipRRect(
+    const radius = BorderRadius.only(
+      topLeft: Radius.circular(0),
+      topRight: Radius.circular(0),
+      bottomLeft: Radius.circular(24),
+      bottomRight: Radius.circular(24),
+    );
+    return Card(
+      elevation: 3,
+      shape: const RoundedRectangleBorder(
+        borderRadius: radius, // Adjust the radius to match your design
+      ),
+      child: InkWell(
+        borderRadius: radius, // Make sure this matches the Card's borderRadius
+        onTap: () async {
+          MaterialItem? result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MaterialListView()),
+          );
+          if (result != null) {
+            onMaterialSelected(result);
+          }
+        },
+        onLongPress: () async {
+          // Handle long press
+        },
+        child: Ink(
+          child: ListTile(
+            title: Text(selectedMaterial.getLocalizedName(context),
+                overflow: TextOverflow.fade, softWrap: false),
+            subtitle: const Text('Quick description of a material'),
+            leading: const Icon(Icons.mark_as_unread),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRRect(
                     borderRadius: BorderRadius.circular(32),
-                    child: Image.asset(
-                      selectedMaterial.imagePath,
-                      height: 32,
-                    ),
-                  ),
-                  const Icon(Icons.arrow_drop_down),
-                ],
-              ),
-            )),
-      ],
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        minWidth: 32,
+                        minHeight: 32,
+                        maxWidth: 64,
+                        maxHeight: 64,
+                      ),
+                      child: Image(image: selectedMaterial.getMaterialImage()),
+                    )),
+                const Icon(Icons.arrow_forward, size: 40),
+              ],
+            ),
+            // contentPadding: EdgeInsets.all(10),
+          ),
+        ),
+      ),
     );
   }
 }

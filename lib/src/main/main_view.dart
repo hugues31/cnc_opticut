@@ -1,4 +1,5 @@
 import 'package:cnc_opticut/src/main/cut_settings.dart';
+import 'package:cnc_opticut/src/main/machine_selector.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,7 +65,14 @@ class MainScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Extract here
+          MachineSelectionWidget(
+            selectedMaterial: settings.materialItem,
+            onMaterialSelected: (material) {
+              ref
+                  .read(cutSettingsProvider.notifier)
+                  .update(materialItem: material);
+            },
+          ),
           MaterialSelectionWidget(
             selectedMaterial: settings.materialItem,
             onMaterialSelected: (material) {
