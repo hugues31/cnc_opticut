@@ -1,5 +1,6 @@
 // Init database with shared preferences
 
+import 'package:cnc_opticut/src/machine/machines_preset_list.dart';
 import 'package:cnc_opticut/src/material/material_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -82,6 +83,37 @@ class DatabaseHelper {
             'depthPerPass': row.depthPerPass,
           });
         }
+      }
+    }
+
+    // Create the machine table
+    await db.execute(
+      '''CREATE TABLE machines (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nameKey TEXT,
+          rigidity REAL,
+          maxSpindleRotationSpeedRpm INTEGER,
+          maxAxisFeedSpeedMmPerMin INTEGER,
+          imagePath TEXT,
+          isPreset INTEGER
+        )''',
+    );
+
+    // Initialize the database with the default machines
+    for (var machine in machinePresetList) {
+      // if machine.nameKey already exists in the database, skip it
+      final List<Map<String, dynamic>> rows = await db.query('machines',
+          where: 'nameKey = ?', whereArgs: [machine.nameKey]);
+
+      if (rows.isEmpty) {
+        await db.insert('machines', {
+          'nameKey': machine.nameKey,
+          'rigidity': machine.rigidity,
+          'maxSpindleRotationSpeedRpm': machine.maxSpindleRotationSpeedRpm,
+          'maxAxisFeedSpeedMmPerMin': machine.maxAxisFeedSpeedMmPerMin,
+          'imagePath': machine.imagePath,
+          'isPreset': machine.isPreset ? 1 : 0,
+        });
       }
     }
   }

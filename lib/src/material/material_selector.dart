@@ -17,10 +17,10 @@ class MaterialSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = BorderRadius.only(
-      topLeft: Radius.circular(0),
-      topRight: Radius.circular(0),
-      bottomLeft: Radius.circular(24),
-      bottomRight: Radius.circular(24),
+      topLeft: Radius.circular(4),
+      topRight: Radius.circular(4),
+      bottomLeft: Radius.circular(4),
+      bottomRight: Radius.circular(4),
     );
     return Card(
       elevation: 3,
@@ -46,7 +46,7 @@ class MaterialSelectionWidget extends StatelessWidget {
             title: Text(selectedMaterial.getLocalizedName(context),
                 overflow: TextOverflow.fade, softWrap: false),
             subtitle: const Text(
-                'Quick description of a material in multiple lines.\nn=3, d=2.4, v=1000'),
+                'Quick description of a material in multiple lines.'),
             leading: const Icon(Icons.mark_as_unread),
             trailing: ClipRRect(
                 borderRadius: const BorderRadius.only(

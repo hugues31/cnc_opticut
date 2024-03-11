@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 import '../material/material_item.dart';
 
-class MachineSelectionWidget extends StatelessWidget {
+class ToolSelectionWidget extends StatelessWidget {
   final MaterialItem selectedMaterial;
   final Function(MaterialItem) onMaterialSelected;
 
-  const MachineSelectionWidget({
+  const ToolSelectionWidget({
     super.key,
     required this.selectedMaterial,
     required this.onMaterialSelected,
@@ -16,10 +16,10 @@ class MachineSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = BorderRadius.only(
-      topLeft: Radius.circular(24),
-      topRight: Radius.circular(24),
-      bottomLeft: Radius.circular(4),
-      bottomRight: Radius.circular(4),
+      topLeft: Radius.circular(4),
+      topRight: Radius.circular(4),
+      bottomLeft: Radius.circular(24),
+      bottomRight: Radius.circular(24),
     );
     return Card(
       elevation: 3,
@@ -36,10 +36,10 @@ class MachineSelectionWidget extends StatelessWidget {
         },
         child: Ink(
           child: const ListTile(
-            title: Text('Machine Selection'),
-            subtitle: Text('Select a machine'),
+            title: Text('Tool Selection'),
+            subtitle: Text('Select a tool'),
             trailing: Icon(Icons.arrow_forward),
-            leading: Icon(Icons.settings, size: 40),
+            leading: Icon(Icons.tornado, size: 40),
             contentPadding: EdgeInsets.all(10),
           ),
         ),
