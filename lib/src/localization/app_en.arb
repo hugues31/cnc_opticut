@@ -66,5 +66,6 @@
   "addTool": "Add cutter tool",
   "addToolPrompt": "Enter cutter tool name",
   "deleteToolConfirmation": "Are you sure you want to delete the cutter tool '{name}'?",
-  "toolsList": "List of cutter tools"
+  "toolsList": "List of cutter tools",
+  "toolMaterial": "Tool material"
 }

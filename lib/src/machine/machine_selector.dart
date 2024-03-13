@@ -12,24 +12,27 @@ class MachineSelectionWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentMachine = ref.watch(currentMachineProvider);
-
-    const baseRadius = Radius.circular(4);
-    const largeRadius = Radius.circular(24);
+    const padding = 8.0;
+    const small = 4.0;
+    const large = 24.0;
+    const smallRadius = Radius.circular(small);
+    const largeRadius = Radius.circular(large);
 
     const radiusCard = BorderRadius.only(
       topLeft: largeRadius,
       topRight: largeRadius,
-      bottomLeft: baseRadius,
-      bottomRight: baseRadius,
+      bottomLeft: smallRadius,
+      bottomRight: smallRadius,
     );
 
-    const radiusImage = BorderRadius.only(
-      topLeft: baseRadius,
-      topRight: largeRadius,
-      bottomLeft: baseRadius,
-      bottomRight: baseRadius,
+    var radiusImage = const BorderRadius.only(
+      topLeft: smallRadius,
+      topRight: Radius.circular(large - padding),
+      bottomLeft: smallRadius,
+      bottomRight: smallRadius,
     );
+
+    final currentMachine = ref.watch(currentMachineProvider);
 
     return Card(
       elevation: 3,
@@ -47,7 +50,7 @@ class MachineSelectionWidget extends ConsumerWidget {
           // Handle long press
         },
         child: Ink(
-          padding: const EdgeInsets.all(8), // Add padding if needed
+          padding: const EdgeInsets.all(padding), // Add padding if needed
           child: Row(
             children: [
               const Padding(

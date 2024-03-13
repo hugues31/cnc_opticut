@@ -19,4 +19,14 @@ var machinePresetList = [
     imagePath: 'assets/images/machines/cnc_aureus_3x.png',
     isPreset: true,
   ),
+  // https://www.mekanika.io/fr_BE/products/pro-cnc/technical-specifications
+  Machine(
+    nameKey: 'Mekanika Pro Mk2',
+    rigidity: 3.0,
+    maxSpindleRotationSpeedRpm: 18000,
+    maxAxisFeedSpeedMmPerMin: 5000,
+    polePairsNumber: 1,
+    imagePath: 'assets/images/machines/cnc_mekanika_pro_mk2.png',
+    isPreset: true,
+  ),
 ];

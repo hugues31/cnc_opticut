@@ -100,8 +100,10 @@ class MachineListView extends ConsumerWidget {
                         IconButton(
                           icon: const Icon(Icons.info),
                           onPressed: () {
+                            // Open MachineDetailsView
                             Navigator.pushNamed(
-                                context, MachineDetailsView.routeName);
+                                context, MachineDetailsView.routeName,
+                                arguments: machine);
                           },
                         ),
                         IconButton(

@@ -72,11 +72,11 @@ class App extends ConsumerWidget {
               case MaterialDetailsView.routeName:
                 return const MaterialDetailsView();
 
-              case MaterialListView.routeName:
-                return const MaterialListView();
-
               case MachineDetailsView.routeName:
                 return const MachineDetailsView();
+
+              case MaterialListView.routeName:
+                return const MaterialListView();
 
               case ToolDetailsView.routeName:
                 return const ToolDetailsView();

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cnc_opticut/src/machine/current_machine.dart';
 import 'package:cnc_opticut/src/machine/machine.dart';
 import 'package:path/path.dart' as path;
 import 'package:cnc_opticut/src/material/material_details_view.dart';
@@ -10,14 +9,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 
 class MachinePreview extends ConsumerWidget {
+  final Machine selectedMachine;
+
   const MachinePreview({
     super.key,
+    required this.selectedMachine,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(editModeProvider);
-    final machine = ref.watch(currentMachineProvider);
 
     return Padding(
         padding: const EdgeInsets.all(32.0),
@@ -34,11 +35,11 @@ class MachinePreview extends ConsumerWidget {
                 child: InkWell(
                   onTap: isEditMode
                       ? () {
-                          pickImage(context, machine);
+                          pickImage(context, selectedMachine);
                         }
                       : null,
                   child: Ink.image(
-                    image: machine.getImage(),
+                    image: selectedMachine.getImage(),
                     fit: BoxFit.cover,
                     child: Stack(
                       children: [

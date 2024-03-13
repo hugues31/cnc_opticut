@@ -1,5 +1,5 @@
 import 'package:cnc_opticut/src/database.dart';
-import 'package:cnc_opticut/src/tool/current_tool.dart';
+import 'package:cnc_opticut/src/tool/tool.dart';
 import 'package:cnc_opticut/src/tool/tool_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,8 +14,9 @@ class ToolDetailsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTool = ref.watch(currentToolProvider);
     final db = ref.watch(databaseHelperProvider);
+
+    final Tool currentTool = ModalRoute.of(context)!.settings.arguments as Tool;
 
     // Use the editModeProvider to manage the edit mode state
     final isEditMode = ref.watch(editModeProvider);
@@ -53,15 +54,15 @@ class ToolDetailsView extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(currentTool.nameKey),
+                Text(AppLocalizations.of(context)!.chooseDiameter),
                 if (isEditMode)
                   TextField(
                     // readOnly: true,
                     keyboardType: TextInputType.number,
                     controller: TextEditingController(
                         text: currentTool.diameter.toString()),
-                    decoration: const InputDecoration(
-                      labelText: "Rigidity",
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.chooseDiameter,
                     ),
                     onChanged: (value) {
                       // Check if the value is a valid number
@@ -80,6 +81,52 @@ class ToolDetailsView extends ConsumerWidget {
                   )
                 else
                   Text(currentTool.diameter.toString()),
+                // Tool material
+                Text(AppLocalizations.of(context)!.toolMaterial),
+                if (isEditMode)
+                  // DropdownButtonFormField
+                  DropdownButtonFormField<ToolMaterial>(
+                    value: currentTool.material,
+                    items: ToolMaterial.values
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e.name),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      currentTool.material = value!;
+                    },
+                  )
+                else
+                  Text(currentTool.material.name.toString()),
+                // Teeths
+                Text(AppLocalizations.of(context)!.teeth),
+                if (isEditMode)
+                  TextField(
+                    // readOnly: true,
+                    keyboardType: TextInputType.number,
+                    controller: TextEditingController(
+                        text: currentTool.teeth.toString()),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.teeth,
+                    ),
+                    onChanged: (value) {
+                      // Check if the value is a valid number
+                      if (int.tryParse(value) == null) {
+                        return;
+                      }
+                      currentTool.teeth = int.parse(value);
+                    },
+                    onSubmitted: (value) {
+                      // Check if the value is a valid number
+                      if (int.tryParse(value) == null) {
+                        return;
+                      }
+                      currentTool.teeth = int.parse(value);
+                    },
+                  )
+                else
+                  Text(currentTool.teeth.toString()),
               ],
             ),
           ),

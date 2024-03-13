@@ -99,7 +99,8 @@ class ToolListView extends ConsumerWidget {
                           icon: const Icon(Icons.info),
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, ToolDetailsView.routeName);
+                                context, ToolDetailsView.routeName,
+                                arguments: tool);
                           },
                         ),
                         IconButton(

@@ -1,5 +1,5 @@
 import 'package:cnc_opticut/src/database.dart';
-import 'package:cnc_opticut/src/machine/current_machine.dart';
+import 'package:cnc_opticut/src/machine/machine.dart';
 import 'package:cnc_opticut/src/machine/machine_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,22 +14,24 @@ class MachineDetailsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentMachine = ref.watch(currentMachineProvider);
     final db = ref.watch(databaseHelperProvider);
+
+    final Machine selectedMachine =
+        ModalRoute.of(context)!.settings.arguments as Machine;
 
     // Use the editModeProvider to manage the edit mode state
     final isEditMode = ref.watch(editModeProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(currentMachine.nameKey),
+        title: Text(selectedMachine.nameKey),
         actions: [
           IconButton(
             icon: Icon(isEditMode ? Icons.save : Icons.edit),
-            tooltip: currentMachine.isPreset
+            tooltip: selectedMachine.isPreset
                 ? AppLocalizations.of(context)!.editDisabled
                 : AppLocalizations.of(context)!.edit,
-            onPressed: currentMachine.isPreset
+            onPressed: selectedMachine.isPreset
                 ? null
                 : () {
                     // Toggle edit mode state
@@ -40,7 +42,7 @@ class MachineDetailsView extends ConsumerWidget {
                     // If in edit mode, save the changes to the database
                     if (isEditMode) {
                       // Save the changes to the database
-                      db.addOrUpdateMachineToDatabase(currentMachine);
+                      db.addOrUpdateMachineToDatabase(selectedMachine);
                     }
                   },
           )
@@ -53,13 +55,13 @@ class MachineDetailsView extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(currentMachine.nameKey),
+                Text(selectedMachine.nameKey),
                 if (isEditMode)
                   TextField(
                     // readOnly: true,
                     keyboardType: TextInputType.number,
                     controller: TextEditingController(
-                        text: currentMachine.rigidity.toString()),
+                        text: selectedMachine.rigidity.toString()),
                     decoration: const InputDecoration(
                       labelText: "Rigidity",
                     ),
@@ -68,22 +70,22 @@ class MachineDetailsView extends ConsumerWidget {
                       if (int.tryParse(value) == null) {
                         return;
                       }
-                      currentMachine.rigidity = double.parse(value);
+                      selectedMachine.rigidity = double.parse(value);
                     },
                     onSubmitted: (value) {
                       // Check if the value is a valid number
                       if (double.tryParse(value) == null) {
                         return;
                       }
-                      currentMachine.rigidity = double.parse(value);
+                      selectedMachine.rigidity = double.parse(value);
                     },
                   )
                 else
-                  Text(currentMachine.rigidity.toString()),
+                  Text(selectedMachine.rigidity.toString()),
               ],
             ),
           ),
-          const MachinePreview(),
+          MachinePreview(selectedMachine: selectedMachine),
         ],
       ),
     );

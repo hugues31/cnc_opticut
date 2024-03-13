@@ -13,23 +13,26 @@ class MaterialSelectionWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentMaterial = ref.watch(currentMaterialProvider);
-
-    const baseRadius = Radius.circular(4);
+    const padding = 8.0;
+    const small = 4.0;
+    const large = 24.0;
+    const smallRadius = Radius.circular(small);
 
     const radiusCard = BorderRadius.only(
-      topLeft: baseRadius,
-      topRight: baseRadius,
-      bottomLeft: baseRadius,
-      bottomRight: baseRadius,
+      topLeft: smallRadius,
+      topRight: smallRadius,
+      bottomLeft: smallRadius,
+      bottomRight: smallRadius,
     );
 
-    const radiusImage = BorderRadius.only(
-      topLeft: baseRadius,
-      topRight: baseRadius,
-      bottomLeft: baseRadius,
-      bottomRight: baseRadius,
+    var radiusImage = const BorderRadius.only(
+      topLeft: smallRadius,
+      topRight: smallRadius,
+      bottomLeft: smallRadius,
+      bottomRight: smallRadius,
     );
+
+    final currentMaterial = ref.watch(currentMaterialProvider);
 
     return Card(
       elevation: 3,
@@ -62,7 +65,7 @@ class MaterialSelectionWidget extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(currentMaterial.nameKey,
+                    Text(currentMaterial.getLocalizedName(context),
                         overflow: TextOverflow.fade, softWrap: false),
                     Text(currentMaterial.getLocalizedQuickInfo(context)),
                   ],

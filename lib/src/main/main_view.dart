@@ -62,10 +62,11 @@ class MainScreen extends ConsumerWidget {
             padding: EdgeInsets.all(24.0),
             child: Divider(),
           ),
-          Text(
+          Center(
+              child: Text(
             AppLocalizations.of(context)!.cuttingParameters,
             style: Theme.of(context).textTheme.titleLarge,
-          ),
+          )),
           const SizedBox(
             height: 32,
           ),
