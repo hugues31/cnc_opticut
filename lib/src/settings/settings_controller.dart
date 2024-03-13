@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'settings_service.dart';
 
-/// A class that many Widgets can interact with to read user settings, update
-/// user settings, or listen to user settings changes.
-///
-/// Controllers glue Data Services to Flutter Widgets. The SettingsController
-/// uses the SettingsService to store and retrieve user settings.
+final settingsServiceProvider = Provider<SettingsService>((ref) {
+  // Initialize and return your SettingsService here
+  return SettingsService();
+});
+
+final settingsControllerProvider =
+    ChangeNotifierProvider<SettingsController>((ref) {
+  // Use ref.read to access other providers without watching them
+  final settingsService = ref.read(settingsServiceProvider);
+
+  // Return an instance of SettingsController with the SettingsService
+  return SettingsController(settingsService);
+});
+
 class SettingsController with ChangeNotifier {
   SettingsController(this._settingsService);
 
@@ -15,7 +25,7 @@ class SettingsController with ChangeNotifier {
 
   // Make ThemeMode a private variable so it is not updated directly without
   // also persisting the changes with the SettingsService.
-  late ThemeMode _themeMode;
+  late ThemeMode _themeMode = ThemeMode.system;
 
   // Allow Widgets to read the user's preferred ThemeMode.
   ThemeMode get themeMode => _themeMode;

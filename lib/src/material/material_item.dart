@@ -33,7 +33,13 @@ class MaterialItem {
     return localizedDesc;
   }
 
-  ImageProvider<Object> getMaterialImage() {
+  String getLocalizedQuickInfo(BuildContext context) {
+    // Return a localized string :
+    // "Cut speed HSS" + " " + cutSpeedHss + " " + "Cut speed Carbide" + " " + cutSpeedCarbide
+    return '${AppLocalizations.of(context)!.cuttingSpeedHSS(cutSpeedHss)} \n${AppLocalizations.of(context)!.cuttingSpeedCarbide(cutSpeedCarbide)}';
+  }
+
+  ImageProvider<Object> getImage() {
     return imagePath.startsWith('assets/')
         ? AssetImage(imagePath)
         : Image.file(File(imagePath)).image;

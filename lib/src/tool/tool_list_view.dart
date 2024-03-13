@@ -1,17 +1,17 @@
-import 'package:cnc_opticut/src/material/current_material.dart';
+import 'package:cnc_opticut/src/tool/current_tool.dart';
+import 'package:cnc_opticut/src/tool/tool.dart';
+import 'package:cnc_opticut/src/tool/tool_detail_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../database.dart';
-import 'material_add.dart';
-import 'material_item.dart';
-import 'material_details_view.dart';
+import 'tool_add.dart';
 
 /// Displays a list of SampleItems.
-class MaterialListView extends ConsumerWidget {
-  const MaterialListView({
+class ToolListView extends ConsumerWidget {
+  const ToolListView({
     super.key,
   });
 
@@ -21,11 +21,11 @@ class MaterialListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final db = ref.watch(databaseHelperProvider);
 
-    Future<List<MaterialItem>> items = db.getMaterialsFromDatabase();
+    Future<List<Tool>> tools = db.getToolsFromDatabase();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.materialsList),
+        title: Text(AppLocalizations.of(context)!.toolsList),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -34,22 +34,19 @@ class MaterialListView extends ConsumerWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return FutureBuilder<List<MaterialItem>>(
-                    future: items,
+                  return FutureBuilder<List<Tool>>(
+                    future: tools,
                     builder: (BuildContext context,
-                        AsyncSnapshot<List<MaterialItem>>
-                            materialsListSnapshot) {
-                      if (materialsListSnapshot.connectionState ==
+                        AsyncSnapshot<List<Tool>> toolsListSnapshot) {
+                      if (toolsListSnapshot.connectionState ==
                           ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
-                      } else if (materialsListSnapshot.hasError) {
+                      } else if (toolsListSnapshot.hasError) {
                         return Center(
-                            child:
-                                Text('Error: ${materialsListSnapshot.error}'));
+                            child: Text('Error: ${toolsListSnapshot.error}'));
                       } else {
-                        List<MaterialItem> items =
-                            materialsListSnapshot.data ?? [];
-                        return MaterialAdd(items: items);
+                        List<Tool> tools = toolsListSnapshot.data ?? [];
+                        return ToolAdd(tools: tools);
                       }
                     },
                   );
@@ -66,34 +63,34 @@ class MaterialListView extends ConsumerWidget {
       // In contrast to the default ListView constructor, which requires
       // building all Widgets up front, the ListView.builder constructor lazily
       // builds Widgets as they’re scrolled into view.
-      body: FutureBuilder<List<MaterialItem>>(
-        future: items,
+      body: FutureBuilder<List<Tool>>(
+        future: tools,
         builder: (BuildContext context,
-            AsyncSnapshot<List<MaterialItem>> materialsListSnapshot) {
+            AsyncSnapshot<List<Tool>> materialsListSnapshot) {
           if (materialsListSnapshot.connectionState ==
               ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (materialsListSnapshot.hasError) {
             return Center(child: Text('Error: ${materialsListSnapshot.error}'));
           } else {
-            List<MaterialItem> items = materialsListSnapshot.data ?? [];
+            List<Tool> items = materialsListSnapshot.data ?? [];
             return ListView.builder(
               // Providing a restorationId allows the ListView to restore the
               // scroll position when a user leaves and returns to the app after it
               // has been killed while running in the background.
-              restorationId: 'materialItemListView',
+              restorationId: 'toolListView',
               itemCount: materialsListSnapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                final item = items[index];
+                final tool = items[index];
                 bool isSelected =
-                    item.nameKey == ref.read(currentMaterialProvider).nameKey;
+                    tool.nameKey == ref.read(currentToolProvider).nameKey;
 
                 return ListTile(
                     selected: isSelected,
                     selectedTileColor: Theme.of(context).highlightColor,
-                    title: Text(item.getLocalizedName(context)),
+                    title: Text(tool.nameKey),
                     leading: CircleAvatar(
-                      foregroundImage: item.getImage(),
+                      foregroundImage: tool.getImage(),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -102,16 +99,13 @@ class MaterialListView extends ConsumerWidget {
                           icon: const Icon(Icons.info),
                           onPressed: () {
                             Navigator.pushNamed(
-                              context,
-                              MaterialDetailsView.routeName,
-                              arguments: item,
-                            );
+                                context, ToolDetailsView.routeName);
                           },
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete),
                           // Impossible to delete a preset, only custom materials
-                          onPressed: item.isPreset
+                          onPressed: tool.isPreset
                               ? null
                               : () {
                                   // Ask for confirmation before deleting
@@ -124,12 +118,12 @@ class MaterialListView extends ConsumerWidget {
                                                 .delete),
                                         content: Text(
                                             AppLocalizations.of(context)!
-                                                .deleteMaterialConfirmation(
-                                                    item.getLocalizedName(
-                                                        context))),
+                                                .deleteToolConfirmation(
+                                                    tool.nameKey)),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
+                                              db.deleteToolFromDatabase(tool);
                                               Navigator.of(context).pop();
                                             },
                                             child: Text(
@@ -138,9 +132,8 @@ class MaterialListView extends ConsumerWidget {
                                           ),
                                           TextButton(
                                             onPressed: () {
-                                              db.deleteMaterialFromDatabase(
-                                                  item);
                                               Navigator.of(context).pop();
+                                              db.deleteToolFromDatabase(tool);
                                             },
                                             child: Text(
                                                 AppLocalizations.of(context)!
@@ -155,16 +148,12 @@ class MaterialListView extends ConsumerWidget {
                       ],
                     ),
                     onTap: () {
-                      // define new currentMaterial
-                      ref.read(currentMaterialProvider.notifier).state = item;
-                      Navigator.pop(context, item);
+                      // define new currentTool
+                      ref.read(currentToolProvider.notifier).state = tool;
+                      Navigator.pop(context, tool);
                     },
                     onLongPress: () {
-                      Navigator.pushNamed(
-                        context,
-                        MaterialDetailsView.routeName,
-                        arguments: item,
-                      );
+                      Navigator.pushNamed(context, ToolDetailsView.routeName);
                     });
               },
             );

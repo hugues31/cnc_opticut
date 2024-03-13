@@ -58,5 +58,13 @@
   "selectImageSource": "Select image source",
   "selectImageSourceDesc": "Choose where to get the image from",
   "camera": "Camera",
-  "gallery": "Gallery"
+  "gallery": "Gallery",
+  "addMachine": "Add machine",
+  "addMachinePrompt": "Enter machine name",
+  "deleteMachineConfirmation": "Are you sure you want to delete the machine '{name}'?",
+  "machinesList": "List of machines",
+  "addTool": "Add cutter tool",
+  "addToolPrompt": "Enter cutter tool name",
+  "deleteToolConfirmation": "Are you sure you want to delete the cutter tool '{name}'?",
+  "toolsList": "List of cutter tools"
 }

@@ -1,24 +1,23 @@
 import 'dart:io';
+import 'package:cnc_opticut/src/machine/current_machine.dart';
+import 'package:cnc_opticut/src/machine/machine.dart';
 import 'package:path/path.dart' as path;
 import 'package:cnc_opticut/src/material/material_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cnc_opticut/src/material/material_item.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 
-class MaterialPreview extends ConsumerWidget {
-  final MaterialItem item;
-
-  const MaterialPreview({
+class MachinePreview extends ConsumerWidget {
+  const MachinePreview({
     super.key,
-    required this.item,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(editModeProvider);
+    final machine = ref.watch(currentMachineProvider);
 
     return Padding(
         padding: const EdgeInsets.all(32.0),
@@ -35,11 +34,11 @@ class MaterialPreview extends ConsumerWidget {
                 child: InkWell(
                   onTap: isEditMode
                       ? () {
-                          pickImage(context, item);
+                          pickImage(context, machine);
                         }
                       : null,
                   child: Ink.image(
-                    image: item.getImage(),
+                    image: machine.getImage(),
                     fit: BoxFit.cover,
                     child: Stack(
                       children: [
@@ -69,7 +68,7 @@ class MaterialPreview extends ConsumerWidget {
   }
 }
 
-void pickImage(BuildContext context, MaterialItem item) async {
+void pickImage(BuildContext context, Machine machine) async {
   await showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -79,7 +78,7 @@ void pickImage(BuildContext context, MaterialItem item) async {
         TextButton(
           child: Text(AppLocalizations.of(context)!.camera),
           onPressed: () async {
-            saveImage(ImageSource.camera, item);
+            saveImage(ImageSource.camera, machine);
             // Process your image here
             Navigator.of(context).pop();
           },
@@ -87,7 +86,7 @@ void pickImage(BuildContext context, MaterialItem item) async {
         TextButton(
           child: Text(AppLocalizations.of(context)!.gallery),
           onPressed: () async {
-            saveImage(ImageSource.gallery, item);
+            saveImage(ImageSource.gallery, machine);
             // Process your image here
             Navigator.of(context).pop();
           },
@@ -97,7 +96,7 @@ void pickImage(BuildContext context, MaterialItem item) async {
   );
 }
 
-void saveImage(ImageSource source, MaterialItem item) async {
+void saveImage(ImageSource source, Machine machine) async {
   final ImagePicker picker = ImagePicker();
   final XFile? image = await picker.pickImage(source: source);
 
@@ -107,6 +106,6 @@ void saveImage(ImageSource source, MaterialItem item) async {
     String savedPath = path.join(directory.path, fileName);
     await File(image.path).copy(savedPath);
 
-    item.imagePath = savedPath;
+    machine.imagePath = savedPath;
   }
 }

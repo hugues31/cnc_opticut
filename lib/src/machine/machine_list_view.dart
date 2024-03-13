@@ -1,17 +1,17 @@
-import 'package:cnc_opticut/src/material/current_material.dart';
+import 'package:cnc_opticut/src/machine/current_machine.dart';
+import 'package:cnc_opticut/src/machine/machine.dart';
+import 'package:cnc_opticut/src/machine/machine_detail_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../database.dart';
-import 'material_add.dart';
-import 'material_item.dart';
-import 'material_details_view.dart';
+import 'machine_add.dart';
 
 /// Displays a list of SampleItems.
-class MaterialListView extends ConsumerWidget {
-  const MaterialListView({
+class MachineListView extends ConsumerWidget {
+  const MachineListView({
     super.key,
   });
 
@@ -21,11 +21,11 @@ class MaterialListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final db = ref.watch(databaseHelperProvider);
 
-    Future<List<MaterialItem>> items = db.getMaterialsFromDatabase();
+    Future<List<Machine>> machines = db.getMachinesFromDatabase();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.materialsList),
+        title: Text(AppLocalizations.of(context)!.machinesList),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -34,22 +34,21 @@ class MaterialListView extends ConsumerWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return FutureBuilder<List<MaterialItem>>(
-                    future: items,
+                  return FutureBuilder<List<Machine>>(
+                    future: machines,
                     builder: (BuildContext context,
-                        AsyncSnapshot<List<MaterialItem>>
-                            materialsListSnapshot) {
-                      if (materialsListSnapshot.connectionState ==
+                        AsyncSnapshot<List<Machine>> machinesListSnapshot) {
+                      if (machinesListSnapshot.connectionState ==
                           ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
-                      } else if (materialsListSnapshot.hasError) {
+                      } else if (machinesListSnapshot.hasError) {
                         return Center(
                             child:
-                                Text('Error: ${materialsListSnapshot.error}'));
+                                Text('Error: ${machinesListSnapshot.error}'));
                       } else {
-                        List<MaterialItem> items =
-                            materialsListSnapshot.data ?? [];
-                        return MaterialAdd(items: items);
+                        List<Machine> machines =
+                            machinesListSnapshot.data ?? [];
+                        return MachineAdd(machines: machines);
                       }
                     },
                   );
@@ -66,34 +65,34 @@ class MaterialListView extends ConsumerWidget {
       // In contrast to the default ListView constructor, which requires
       // building all Widgets up front, the ListView.builder constructor lazily
       // builds Widgets as they’re scrolled into view.
-      body: FutureBuilder<List<MaterialItem>>(
-        future: items,
+      body: FutureBuilder<List<Machine>>(
+        future: machines,
         builder: (BuildContext context,
-            AsyncSnapshot<List<MaterialItem>> materialsListSnapshot) {
+            AsyncSnapshot<List<Machine>> materialsListSnapshot) {
           if (materialsListSnapshot.connectionState ==
               ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (materialsListSnapshot.hasError) {
             return Center(child: Text('Error: ${materialsListSnapshot.error}'));
           } else {
-            List<MaterialItem> items = materialsListSnapshot.data ?? [];
+            List<Machine> items = materialsListSnapshot.data ?? [];
             return ListView.builder(
               // Providing a restorationId allows the ListView to restore the
               // scroll position when a user leaves and returns to the app after it
               // has been killed while running in the background.
-              restorationId: 'materialItemListView',
+              restorationId: 'machineListView',
               itemCount: materialsListSnapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                final item = items[index];
+                final machine = items[index];
                 bool isSelected =
-                    item.nameKey == ref.read(currentMaterialProvider).nameKey;
+                    machine.nameKey == ref.read(currentMachineProvider).nameKey;
 
                 return ListTile(
                     selected: isSelected,
                     selectedTileColor: Theme.of(context).highlightColor,
-                    title: Text(item.getLocalizedName(context)),
+                    title: Text(machine.nameKey),
                     leading: CircleAvatar(
-                      foregroundImage: item.getImage(),
+                      foregroundImage: machine.getImage(),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -102,16 +101,13 @@ class MaterialListView extends ConsumerWidget {
                           icon: const Icon(Icons.info),
                           onPressed: () {
                             Navigator.pushNamed(
-                              context,
-                              MaterialDetailsView.routeName,
-                              arguments: item,
-                            );
+                                context, MachineDetailsView.routeName);
                           },
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete),
                           // Impossible to delete a preset, only custom materials
-                          onPressed: item.isPreset
+                          onPressed: machine.isPreset
                               ? null
                               : () {
                                   // Ask for confirmation before deleting
@@ -124,12 +120,13 @@ class MaterialListView extends ConsumerWidget {
                                                 .delete),
                                         content: Text(
                                             AppLocalizations.of(context)!
-                                                .deleteMaterialConfirmation(
-                                                    item.getLocalizedName(
-                                                        context))),
+                                                .deleteMachineConfirmation(
+                                                    machine.nameKey)),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
+                                              db.deleteMachineFromDatabase(
+                                                  machine);
                                               Navigator.of(context).pop();
                                             },
                                             child: Text(
@@ -138,9 +135,9 @@ class MaterialListView extends ConsumerWidget {
                                           ),
                                           TextButton(
                                             onPressed: () {
-                                              db.deleteMaterialFromDatabase(
-                                                  item);
                                               Navigator.of(context).pop();
+                                              db.deleteMachineFromDatabase(
+                                                  machine);
                                             },
                                             child: Text(
                                                 AppLocalizations.of(context)!
@@ -155,16 +152,13 @@ class MaterialListView extends ConsumerWidget {
                       ],
                     ),
                     onTap: () {
-                      // define new currentMaterial
-                      ref.read(currentMaterialProvider.notifier).state = item;
-                      Navigator.pop(context, item);
+                      // define new currentMachine
+                      ref.read(currentMachineProvider.notifier).state = machine;
+                      Navigator.pop(context, machine);
                     },
                     onLongPress: () {
                       Navigator.pushNamed(
-                        context,
-                        MaterialDetailsView.routeName,
-                        arguments: item,
-                      );
+                          context, MachineDetailsView.routeName);
                     });
               },
             );

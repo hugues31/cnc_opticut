@@ -1,7 +1,10 @@
 // Init database with shared preferences
 
+import 'package:cnc_opticut/src/machine/machine.dart';
 import 'package:cnc_opticut/src/machine/machines_preset_list.dart';
 import 'package:cnc_opticut/src/material/material_item.dart';
+import 'package:cnc_opticut/src/tool/tool.dart';
+import 'package:cnc_opticut/src/tool/tools_preset_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
@@ -94,6 +97,7 @@ class DatabaseHelper {
           rigidity REAL,
           maxSpindleRotationSpeedRpm INTEGER,
           maxAxisFeedSpeedMmPerMin INTEGER,
+          polePairsNumber INTEGER,
           imagePath TEXT,
           isPreset INTEGER
         )''',
@@ -111,8 +115,40 @@ class DatabaseHelper {
           'rigidity': machine.rigidity,
           'maxSpindleRotationSpeedRpm': machine.maxSpindleRotationSpeedRpm,
           'maxAxisFeedSpeedMmPerMin': machine.maxAxisFeedSpeedMmPerMin,
+          'polePairsNumber': machine.polePairsNumber,
           'imagePath': machine.imagePath,
           'isPreset': machine.isPreset ? 1 : 0,
+        });
+      }
+    }
+
+    // Create the tool table
+    await db.execute(
+      '''CREATE TABLE tools (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nameKey TEXT,
+          imagePath TEXT,
+          isPreset INTEGER,
+          material INTEGER,
+          diameter INTEGER,
+          teeth INTEGER
+        )''',
+    );
+
+    // Initialize the database with the default tools
+    for (var tool in toolsPresetList) {
+      // if tool.nameKey already exists in the database, skip it
+      final List<Map<String, dynamic>> rows = await db
+          .query('tools', where: 'nameKey = ?', whereArgs: [tool.nameKey]);
+
+      if (rows.isEmpty) {
+        await db.insert('tools', {
+          'nameKey': tool.nameKey,
+          'imagePath': tool.imagePath,
+          'isPreset': tool.isPreset ? 1 : 0,
+          'material': tool.material.index,
+          'diameter': tool.diameter,
+          'teeth': tool.teeth,
         });
       }
     }
@@ -241,5 +277,115 @@ class DatabaseHelper {
     final db = await database;
     await db.delete('materials',
         where: 'nameKey = ?', whereArgs: [material.nameKey]);
+  }
+
+  Future<List<Machine>> getMachinesFromDatabase() async {
+    final db = await database;
+    final List<Map<String, dynamic>> rows = await db.query('machines');
+    List<Machine> machines = [];
+
+    for (var row in rows) {
+      machines.add(Machine(
+        nameKey: row['nameKey'],
+        rigidity: row['rigidity'],
+        maxSpindleRotationSpeedRpm: row['maxSpindleRotationSpeedRpm'],
+        maxAxisFeedSpeedMmPerMin: row['maxAxisFeedSpeedMmPerMin'],
+        polePairsNumber: row['polePairsNumber'],
+        imagePath: row['imagePath'],
+        isPreset: row['isPreset'] == 1,
+      ));
+    }
+
+    return machines;
+  }
+
+  Future<void> addOrUpdateMachineToDatabase(Machine machine) async {
+    final db = await database;
+    final List<Map<String, dynamic>> rows = await db
+        .query('machines', where: 'nameKey = ?', whereArgs: [machine.nameKey]);
+
+    if (rows.isEmpty) {
+      await db.insert('machines', {
+        'nameKey': machine.nameKey,
+        'rigidity': machine.rigidity,
+        'maxSpindleRotationSpeedRpm': machine.maxSpindleRotationSpeedRpm,
+        'maxAxisFeedSpeedMmPerMin': machine.maxAxisFeedSpeedMmPerMin,
+        'polePairsNumber': machine.polePairsNumber,
+        'imagePath': machine.imagePath,
+        'isPreset': machine.isPreset ? 1 : 0,
+      });
+    } else {
+      await db.update(
+          'machines',
+          {
+            'rigidity': machine.rigidity,
+            'maxSpindleRotationSpeedRpm': machine.maxSpindleRotationSpeedRpm,
+            'maxAxisFeedSpeedMmPerMin': machine.maxAxisFeedSpeedMmPerMin,
+            'polePairsNumber': machine.polePairsNumber,
+            'imagePath': machine.imagePath,
+            'isPreset': machine.isPreset ? 1 : 0,
+          },
+          where: 'nameKey = ?',
+          whereArgs: [machine.nameKey]);
+    }
+  }
+
+  Future<void> deleteMachineFromDatabase(Machine machine) async {
+    final db = await database;
+    await db
+        .delete('machines', where: 'nameKey = ?', whereArgs: [machine.nameKey]);
+  }
+
+  Future<List<Tool>> getToolsFromDatabase() async {
+    final db = await database;
+    final List<Map<String, dynamic>> rows = await db.query('tools');
+    List<Tool> tools = [];
+
+    for (var row in rows) {
+      tools.add(Tool(
+        nameKey: row['nameKey'],
+        imagePath: row['imagePath'],
+        isPreset: row['isPreset'] == 1,
+        material: ToolMaterial.values[row['material']],
+        diameter: row['diameter'],
+        teeth: row['teeth'],
+      ));
+    }
+
+    return tools;
+  }
+
+  Future<void> addOrUpdateToolToDatabase(Tool tool) async {
+    final db = await database;
+    final List<Map<String, dynamic>> rows = await db
+        .query('tools', where: 'nameKey = ?', whereArgs: [tool.nameKey]);
+
+    if (rows.isEmpty) {
+      await db.insert('tools', {
+        'nameKey': tool.nameKey,
+        'imagePath': tool.imagePath,
+        'isPreset': tool.isPreset ? 1 : 0,
+        'material': tool.material.index,
+        'diameter': tool.diameter,
+        'teeth': tool.teeth,
+      });
+    } else {
+      await db.update(
+          'tools',
+          {
+            'imagePath': tool.imagePath,
+            'isPreset': tool.isPreset ? 1 : 0,
+            'material': tool.material.index,
+            'diameter': tool.diameter,
+            'teeth': tool.teeth,
+          },
+          where: 'nameKey = ?',
+          whereArgs: [tool.nameKey]);
+    }
+  }
+
+  Future<void> deleteToolFromDatabase(Tool tool) async {
+    final db = await database;
+    await db.delete('tools', where: 'nameKey = ?', whereArgs: [tool.nameKey]);
   }
 }

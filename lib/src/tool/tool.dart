@@ -2,23 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class Machine {
+class Tool {
   String nameKey;
-  double rigidity;
-  int maxSpindleRotationSpeedRpm;
-  int maxAxisFeedSpeedMmPerMin;
-  int polePairsNumber;
   String imagePath;
   bool isPreset;
+  ToolMaterial material;
+  int diameter;
+  int teeth;
 
-  Machine({
+  Tool({
     required this.nameKey,
-    required this.rigidity,
-    required this.maxSpindleRotationSpeedRpm,
-    required this.maxAxisFeedSpeedMmPerMin,
-    required this.polePairsNumber,
     required this.imagePath,
     required this.isPreset,
+    required this.material,
+    required this.diameter,
+    required this.teeth,
   });
 
   ImageProvider<Object> getImage() {
@@ -28,6 +26,11 @@ class Machine {
   }
 
   String getLocalizedQuickInfo(BuildContext context) {
-    return '$rigidity - ${maxSpindleRotationSpeedRpm}rpm - $maxAxisFeedSpeedMmPerMin mm/min - $polePairsNumber pole pairs';
+    return '${material.name} - ${diameter}mm - $teeth teeth';
   }
+}
+
+enum ToolMaterial {
+  hss,
+  carbide,
 }

@@ -17,10 +17,10 @@ class MaterialDetailsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final db = ref.watch(databaseHelperProvider);
+
     final MaterialItem item =
         ModalRoute.of(context)!.settings.arguments as MaterialItem;
-
-    final db = ref.watch(databaseHelperProvider);
 
     // Use the editModeProvider to manage the edit mode state
     final isEditMode = ref.watch(editModeProvider);

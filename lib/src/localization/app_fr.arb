@@ -58,5 +58,13 @@
     "selectImageSource": "Source de l'image",
     "selectImageSourceDesc": "Choisissez la source de l'image pour le matériau",
     "camera": "Caméra",
-    "gallery": "Gallerie"
+    "gallery": "Gallerie",
+    "addImage": "Ajouter une image",
+    "addMachinePrompt": "Nom de la machine",
+    "deleteMachineConfirmation": "Etes-vous sûr de vouloir supprimer la machine '{name}' ?",
+    "machinesList": "Liste des machines",
+    "addTool": "Ajouter une fraise",
+    "addToolPrompt": "Nom de la fraise",
+    "deleteToolConfirmation": "Etes-vous sûr de vouloir supprimer la fraise '{name}' ?",
+    "toolsList": "Liste des fraises"
 }

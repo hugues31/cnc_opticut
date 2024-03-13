@@ -47,3 +47,11 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/images/materials/
+    - assets/images/machines/
+    - assets/icons/
+    - assets/fonts/
+
+  fonts:
+    - family: CNCOpticut
+      fonts:
+        - asset: assets/fonts/CNCOpticut.ttf
