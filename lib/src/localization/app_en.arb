@@ -7,6 +7,7 @@
   "materialsList": "List of materials",
   "materialSelection": "Material selection:",
   "settings": "Settings",
+  "themeMode": "Theme mode:",
   "systemDefault": "System default",
   "lightTheme": "Light theme",
   "darkTheme": "Dark theme",
@@ -67,5 +68,9 @@
   "addToolPrompt": "Enter cutter tool name",
   "deleteToolConfirmation": "Are you sure you want to delete the cutter tool '{name}'?",
   "toolsList": "List of cutter tools",
-  "toolMaterial": "Tool material"
+  "toolMaterial": "Tool material",
+  "rigidityCoefficient": "Rigidity coefficient (Kr)",
+  "maxSpindleRotationSpeed": "Maximum spindle rotation speed (RPM)",
+  "maxAxisFeedSpeed": "Maximum axis feed speed (mm/min)",
+  "polePairs": "Pole pairs (Pp)"
 }

@@ -13,9 +13,7 @@ class MaterialSelectionWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const padding = 8.0;
     const small = 4.0;
-    const large = 24.0;
     const smallRadius = Radius.circular(small);
 
     const radiusCard = BorderRadius.only(

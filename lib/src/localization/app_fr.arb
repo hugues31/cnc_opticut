@@ -6,6 +6,7 @@
     },
     "materialsList": "Liste des matériaux",
     "materialSelection": "Sélection du matériau :",
+    "themeMode": "Choix du thème :",
     "settings": "Paramètres",
     "systemDefault": "Paramètres par défaut",
     "lightTheme": "Thème clair",
@@ -67,5 +68,9 @@
     "addToolPrompt": "Nom de la fraise",
     "deleteToolConfirmation": "Etes-vous sûr de vouloir supprimer la fraise '{name}' ?",
     "toolsList": "Liste des fraises",
-    "toolMaterial": "Matériau de la fraise"
+    "toolMaterial": "Matériau de la fraise",
+    "rigidityCoefficient": "Coefficient de rigidité",
+    "maxSpindleRotationSpeed": "Vitesse maximale de rotation de la broche (rpm)",
+    "maxAxisFeedSpeed": "Vitesse maximale d'avance des axes (mm/min)",
+    "polePairs": "Paires de pôle (Pp)"
 }

@@ -14,24 +14,30 @@ class ChangeTheme extends StatelessWidget {
     //
     // When a user selects a theme from the dropdown list, the
     // SettingsController is updated, which rebuilds the MaterialApp.
-    return DropdownButton<ThemeMode>(
-      // Read the selected themeMode from the controller
-      value: controller.themeMode,
-      // Call the updateThemeMode method any time the user selects a theme.
-      onChanged: controller.updateThemeMode,
-      items: [
-        DropdownMenuItem(
-          value: ThemeMode.system,
-          child: Text(AppLocalizations.of(context)!.systemDefault),
+    return Row(
+      children: [
+        Text(AppLocalizations.of(context)!.themeMode),
+        const SizedBox(width: 8),
+        DropdownButton<ThemeMode>(
+          // Read the selected themeMode from the controller
+          value: controller.themeMode,
+          // Call the updateThemeMode method any time the user selects a theme.
+          onChanged: controller.updateThemeMode,
+          items: [
+            DropdownMenuItem(
+              value: ThemeMode.system,
+              child: Text(AppLocalizations.of(context)!.systemDefault),
+            ),
+            DropdownMenuItem(
+              value: ThemeMode.light,
+              child: Text(AppLocalizations.of(context)!.lightTheme),
+            ),
+            DropdownMenuItem(
+              value: ThemeMode.dark,
+              child: Text(AppLocalizations.of(context)!.darkTheme),
+            )
+          ],
         ),
-        DropdownMenuItem(
-          value: ThemeMode.light,
-          child: Text(AppLocalizations.of(context)!.lightTheme),
-        ),
-        DropdownMenuItem(
-          value: ThemeMode.dark,
-          child: Text(AppLocalizations.of(context)!.darkTheme),
-        )
       ],
     );
   }

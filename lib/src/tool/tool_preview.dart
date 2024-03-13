@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cnc_opticut/src/tool/current_tool.dart';
 import 'package:cnc_opticut/src/tool/tool.dart';
 import 'package:path/path.dart' as path;
 import 'package:cnc_opticut/src/material/material_details_view.dart';
@@ -10,14 +9,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ToolPreview extends ConsumerWidget {
+  final Tool selectedTool;
+
   const ToolPreview({
     super.key,
+    required this.selectedTool,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = ref.watch(editModeProvider);
-    final tool = ref.watch(currentToolProvider);
 
     return Padding(
         padding: const EdgeInsets.all(32.0),
@@ -34,11 +35,11 @@ class ToolPreview extends ConsumerWidget {
                 child: InkWell(
                   onTap: isEditMode
                       ? () {
-                          pickImage(context, tool);
+                          pickImage(context, selectedTool);
                         }
                       : null,
                   child: Ink.image(
-                    image: tool.getImage(),
+                    image: selectedTool.getImage(),
                     fit: BoxFit.cover,
                     child: Stack(
                       children: [

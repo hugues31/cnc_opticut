@@ -130,7 +130,7 @@ class ToolDetailsView extends ConsumerWidget {
               ],
             ),
           ),
-          const ToolPreview(),
+          ToolPreview(selectedTool: currentTool),
         ],
       ),
     );

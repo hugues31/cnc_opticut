@@ -11,7 +11,7 @@ Machine getDefaultMachine(String nameKey) {
     maxSpindleRotationSpeedRpm: 10000,
     maxAxisFeedSpeedMmPerMin: 1000,
     polePairsNumber: 1,
-    imagePath: 'assets/images/machines/cnc_3018_desktop_pro.png',
+    imagePath: 'assets/images/machines/custom_machine.png',
     isPreset: false,
   );
 }

@@ -55,33 +55,63 @@ class MachineDetailsView extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(selectedMachine.nameKey),
-                if (isEditMode)
-                  TextField(
-                    // readOnly: true,
-                    keyboardType: TextInputType.number,
-                    controller: TextEditingController(
-                        text: selectedMachine.rigidity.toString()),
-                    decoration: const InputDecoration(
-                      labelText: "Rigidity",
-                    ),
-                    onChanged: (value) {
-                      // Check if the value is a valid number
-                      if (int.tryParse(value) == null) {
-                        return;
-                      }
-                      selectedMachine.rigidity = double.parse(value);
-                    },
-                    onSubmitted: (value) {
-                      // Check if the value is a valid number
-                      if (double.tryParse(value) == null) {
-                        return;
-                      }
-                      selectedMachine.rigidity = double.parse(value);
-                    },
-                  )
-                else
-                  Text(selectedMachine.rigidity.toString()),
+                // Rigidity
+                Row(
+                  children: [
+                    Text(AppLocalizations.of(context)!.rigidityCoefficient),
+                    const SizedBox(width: 16),
+                    if (isEditMode)
+                      Text(
+                        selectedMachine.rigidity.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    else
+                      Text(selectedMachine.rigidity.toString()),
+                  ],
+                ),
+                // Max spindle rotation speed (RPM)
+                Row(
+                  children: [
+                    Text(AppLocalizations.of(context)!.maxSpindleRotationSpeed),
+                    const SizedBox(width: 16),
+                    if (isEditMode)
+                      Text(
+                        selectedMachine.maxSpindleRotationSpeedRpm.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    else
+                      Text(selectedMachine.maxSpindleRotationSpeedRpm
+                          .toString()),
+                  ],
+                ),
+                // max axis feed speed (mm/min)
+                Row(
+                  children: [
+                    Text(AppLocalizations.of(context)!.maxAxisFeedSpeed),
+                    const SizedBox(width: 16),
+                    if (isEditMode)
+                      Text(
+                        selectedMachine.maxAxisFeedSpeedMmPerMin.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    else
+                      Text(selectedMachine.maxAxisFeedSpeedMmPerMin.toString()),
+                  ],
+                ),
+                // Pole pairs
+                Row(
+                  children: [
+                    Text(AppLocalizations.of(context)!.polePairs),
+                    const SizedBox(width: 16),
+                    if (isEditMode)
+                      Text(
+                        selectedMachine.polePairsNumber.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    else
+                      Text(selectedMachine.polePairsNumber.toString()),
+                  ],
+                ),
               ],
             ),
           ),

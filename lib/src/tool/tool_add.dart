@@ -6,13 +6,12 @@ import 'tool.dart';
 
 Tool getDefaultTool(String nameKey) {
   return Tool(
-    nameKey: nameKey,
-    imagePath: 'assets/images/materials/custom_material.png',
-    isPreset: false,
-    material: ToolMaterial.hss,
-    diameter: 3,
-    teeth: 2
-  );
+      nameKey: nameKey,
+      imagePath: 'assets/images/tools/custom_tool.png',
+      isPreset: false,
+      material: ToolMaterial.hss,
+      diameter: 3,
+      teeth: 2);
 }
 
 class ToolAdd extends ConsumerWidget {
