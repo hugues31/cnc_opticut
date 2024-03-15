@@ -166,7 +166,6 @@ class DatabaseHelper {
     // ref.invalidate(databaseProvider);
   }
 
-  // Add methods for CRUD operations here
   Future<ThemeMode> themeMode() async {
     final db = await database;
     final List<Map<String, dynamic>> rows = await db.query('settings',
