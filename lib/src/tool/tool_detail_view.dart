@@ -69,14 +69,14 @@ class ToolDetailsView extends ConsumerWidget {
                       if (int.tryParse(value) == null) {
                         return;
                       }
-                      currentTool.diameter = int.parse(value);
+                      currentTool.diameter = double.parse(value);
                     },
                     onSubmitted: (value) {
                       // Check if the value is a valid number
                       if (double.tryParse(value) == null) {
                         return;
                       }
-                      currentTool.diameter = int.parse(value);
+                      currentTool.diameter = double.parse(value);
                     },
                   )
                 else

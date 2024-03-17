@@ -35,6 +35,7 @@
     "cuttingParameters": "Paramètres de coupe",
     "drillingBitType": "Type de foret :",
     "chooseDiameter": "Diamètre de la fraise :",
+    "diameter": "Diamètre",
     "deleteDb": "Supprimer la base de donnée",
     "deleteDbConfirmation": "Etes-vous sûr de vouloir supprimer la base de donnée ?",
     "cancel": "Annuler",
@@ -72,5 +73,10 @@
     "rigidityCoefficient": "Coefficient de rigidité",
     "maxSpindleRotationSpeed": "Vitesse maximale de rotation de la broche (rpm)",
     "maxAxisFeedSpeed": "Vitesse maximale d'avance des axes (mm/min)",
-    "polePairs": "Paires de pôle (Pp)"
+    "polePairs": "Paires de pôle (Pp)",
+    "spindleRotationSpeed" : "Vitesse de rotation de la broche",
+    "feedSpeed": "Vitesse d'avance",
+    "maxZFeedSpeed": "Vitesse maximale d'avance en Z",
+    "depthOfCut": "Profondeur de passe",
+    "close": "Fermer"
 }

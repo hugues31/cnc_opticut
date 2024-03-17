@@ -130,13 +130,13 @@ class DatabaseHelper {
           imagePath TEXT,
           isPreset INTEGER,
           material INTEGER,
-          diameter INTEGER,
+          diameter REAL,
           teeth INTEGER
         )''',
     );
 
     // Initialize the database with the default tools
-    for (var tool in toolsPresetList) {
+    for (var tool in generateToolPresetList()) {
       // if tool.nameKey already exists in the database, skip it
       final List<Map<String, dynamic>> rows = await db
           .query('tools', where: 'nameKey = ?', whereArgs: [tool.nameKey]);

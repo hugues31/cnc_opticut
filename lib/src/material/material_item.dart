@@ -53,6 +53,13 @@ class MaterialItem {
     required this.cutSpeedHss,
     required this.cutSpeedCarbide,
   });
+
+  MaterialCuttingChartRow getCuttingChartRowWithDepth(double depth) {
+    return materialCuttingChart.firstWhere(
+      (element) => element.depth == depth,
+      orElse: () => MaterialCuttingChartRow(0, 0, 0),
+    );
+  }
 }
 
 class MaterialCuttingChartRow {

@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Tool {
   String nameKey;
   String imagePath;
   bool isPreset;
   ToolMaterial material;
-  int diameter;
+  double diameter;
   int teeth;
 
   Tool({
@@ -18,6 +19,13 @@ class Tool {
     required this.diameter,
     required this.teeth,
   });
+
+  String getLocalizedName(BuildContext context) {
+    String teethStr = AppLocalizations.of(context)!.teeth;
+    String diameterStr = AppLocalizations.of(context)!.diameter;
+
+    return "$diameterStr: $diameter mm, ${material.name}, $teethStr: $teeth";
+  }
 
   ImageProvider<Object> getImage() {
     return imagePath.startsWith('assets/')

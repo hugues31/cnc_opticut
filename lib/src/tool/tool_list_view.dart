@@ -22,7 +22,6 @@ class ToolListView extends ConsumerWidget {
     final db = ref.watch(databaseHelperProvider);
 
     Future<List<Tool>> tools = db.getToolsFromDatabase();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.toolsList),
@@ -88,7 +87,7 @@ class ToolListView extends ConsumerWidget {
                 return ListTile(
                     selected: isSelected,
                     selectedTileColor: Theme.of(context).highlightColor,
-                    title: Text(tool.nameKey),
+                    title: Text(tool.getLocalizedName(context)),
                     leading: CircleAvatar(
                       foregroundImage: tool.getImage(),
                     ),

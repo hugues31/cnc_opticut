@@ -1,13 +1,12 @@
-import 'package:cnc_opticut/src/machine/current_machine.dart';
 import 'package:cnc_opticut/src/machine/machine_selector.dart';
-import 'package:cnc_opticut/src/material/current_material.dart';
-import 'package:cnc_opticut/src/tool/current_tool.dart';
-import 'package:cnc_opticut/src/tool/tool.dart';
+import 'package:cnc_opticut/src/results/depth_cut.dart';
+import 'package:cnc_opticut/src/results/feed_speed.dart';
+import 'package:cnc_opticut/src/results/max_z_feed_speed.dart';
+import 'package:cnc_opticut/src/results/spindle_rotation_speed.dart';
 import 'package:cnc_opticut/src/tool/tool_selector.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../settings/settings_view.dart';
@@ -18,16 +17,6 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentMachine = ref.watch(currentMachineProvider);
-    final currentMaterial = ref.watch(currentMaterialProvider);
-    final currentTool = ref.watch(currentToolProvider);
-
-    double n = (1000 *
-            (currentTool.material == ToolMaterial.hss
-                ? currentMaterial.cutSpeedHss
-                : currentMaterial.cutSpeedCarbide)) /
-        (3.14159 * currentTool.diameter);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("CNC Opticut"),
@@ -59,7 +48,7 @@ class MainScreen extends ConsumerWidget {
 
           // Separator
           const Padding(
-            padding: EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(4.0),
             child: Divider(),
           ),
           Center(
@@ -67,52 +56,10 @@ class MainScreen extends ConsumerWidget {
             AppLocalizations.of(context)!.cuttingParameters,
             style: Theme.of(context).textTheme.titleLarge,
           )),
-          const SizedBox(
-            height: 32,
-          ),
-          Math.tex(
-              ("${currentTool.material == ToolMaterial.hss ? 'V_c^{HSS}' : 'V_c^{${AppLocalizations.of(context)!.carbide}}'}=${currentTool.material == ToolMaterial.hss ? currentMaterial.cutSpeedHss : currentMaterial.cutSpeedCarbide}"),
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 16),
-          Math.tex("d=${currentTool.diameter}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 16),
-          Math.tex("f_z=${currentMaterial.isPreset}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 16),
-          Math.tex("a_p=${currentMaterial.isPreset}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 16),
-          Math.tex("n (tr/min)= \\frac{1000 \\cdot V_c}{\\pi \\cdot d}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 12),
-          Math.tex(
-              "= \\frac{1000 \\cdot ${currentTool.material == ToolMaterial.hss ? currentMaterial.cutSpeedHss : currentMaterial.cutSpeedCarbide}}{\\pi \\cdot ${currentTool.diameter}}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 12),
-          Math.tex(" \\approx ${(n).toStringAsFixed(0)}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 16),
-          Math.tex("vf(mm/min) = f_z \\cdot n \\cdot Z",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 12),
-          Math.tex(
-              "= ${currentTool.diameter} \\cdot ${n.toStringAsFixed(0)} \\cdot ${currentTool.teeth}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 12),
-          Math.tex(
-              " \\approx ${(currentTool.diameter * n * currentTool.teeth).toStringAsFixed(0)}",
-              mathStyle: MathStyle.display,
-              textStyle: const TextStyle(fontSize: 24)),
+          const SpindleRotationSpeed(),
+          const FeedSpeed(),
+          const MaxZFeedSpeed(),
+          const DepthCut()
         ],
       ),
     );

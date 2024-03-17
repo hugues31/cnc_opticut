@@ -35,6 +35,7 @@
   "cuttingParameters": "Cutting parameters",
   "drillingBitType": "Drilling bit type:",
   "chooseDiameter": "Cutter diameter:",
+  "diameter": "Diameter",
   "deleteDb": "Delete database",
   "deleteDbConfirmation": "Are you sure you want to delete the database?",
   "cancel": "Cancel",
@@ -72,5 +73,10 @@
   "rigidityCoefficient": "Rigidity coefficient (Kr)",
   "maxSpindleRotationSpeed": "Maximum spindle rotation speed (RPM)",
   "maxAxisFeedSpeed": "Maximum axis feed speed (mm/min)",
-  "polePairs": "Pole pairs (Pp)"
+  "polePairs": "Pole pairs (Pp)",
+  "spindleRotationSpeed": "Spindle rotation speed",
+  "feedSpeed": "Feed speed",
+  "maxZFeedSpeed": "Maximum Z feed speed",
+  "depthOfCut": "Depth of cut",
+  "close": "Close"
 }
