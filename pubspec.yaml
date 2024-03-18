@@ -48,6 +48,7 @@ flutter:
     - assets/images/materials/
     - assets/images/machines/
     - assets/images/tools/
+    - assets/images/results/
     - assets/icons/
     - assets/fonts/
 

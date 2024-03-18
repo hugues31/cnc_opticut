@@ -57,6 +57,7 @@
   "nameExists": "Name '{name}' already exists",
   "edit": "Edit",
   "editDisabled": "Material is not editable",
+  "addImage": "Add a picture",
   "selectImageSource": "Select image source",
   "selectImageSourceDesc": "Choose where to get the image from",
   "camera": "Camera",
@@ -78,5 +79,6 @@
   "feedSpeed": "Feed speed",
   "maxZFeedSpeed": "Maximum Z feed speed",
   "depthOfCut": "Depth of cut",
-  "close": "Close"
+  "close": "Close",
+  "takingIntoAccountMachineLimits": "Taking into account machine limits"
 }

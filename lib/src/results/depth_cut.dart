@@ -27,6 +27,7 @@ class DepthCut extends ConsumerWidget {
         name: AppLocalizations.of(context)!.depthOfCut,
         result: result,
         unit: unit,
-        explanation: const Text("ok"));
+        explanation: const Text("ok"),
+        leadingImage: "assets/images/results/depth_cut.png");
   }
 }

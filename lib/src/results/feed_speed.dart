@@ -39,6 +39,7 @@ class FeedSpeed extends ConsumerWidget {
            \\end{aligned}""", textStyle: const TextStyle(fontSize: 20))
             ],
           ),
-        ));
+        ),
+        leadingImage: "assets/images/results/feed_speed.png");
   }
 }

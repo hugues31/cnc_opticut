@@ -7,24 +7,35 @@ class ResultWidget extends ConsumerWidget {
   final int result;
   final String unit;
   final Widget explanation;
+  final String leadingImage;
 
   const ResultWidget(
       {super.key,
       required this.name,
       required this.result,
       required this.unit,
-      required this.explanation});
+      required this.explanation,
+      required this.leadingImage});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
+        // isThreeLine: true,
         title: Text(name),
         subtitle: Text("$result $unit"),
         tileColor: Theme.of(context).splashColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
+        ),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            leadingImage,
+            // width: 40,
+            // height: 40,
+          ),
         ),
         // info icon
         trailing: IconButton(

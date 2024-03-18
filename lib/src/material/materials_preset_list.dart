@@ -4,12 +4,12 @@ import 'material_item.dart';
 MaterialItem softWood = MaterialItem(
     nameKey: 'softWood',
     materialCuttingChart: [
-      MaterialCuttingChartRow(1, 0.01, 0.3),
-      MaterialCuttingChartRow(2, 0.04, 1),
-      MaterialCuttingChartRow(3, 0.08, 2),
-      MaterialCuttingChartRow(4, 0.13, 3),
-      MaterialCuttingChartRow(5, 0.2, 4.1),
-      MaterialCuttingChartRow(6, 0.3, 5.8),
+      MaterialCuttingChartRow(1, 0.02, 0.3),
+      MaterialCuttingChartRow(2, 0.05, 1),
+      MaterialCuttingChartRow(3, 0.06, 2),
+      MaterialCuttingChartRow(4, 0.15, 3),
+      MaterialCuttingChartRow(5, 0.2, 4),
+      MaterialCuttingChartRow(6, 0.3, 6),
     ],
     imagePath: 'assets/images/materials/soft_wood_pine.png',
     isPreset: true,

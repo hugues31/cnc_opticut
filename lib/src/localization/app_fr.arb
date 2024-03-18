@@ -57,11 +57,12 @@
     "nameExists": "Le nom '{name}' existe déjà.",
     "edit": "Éditer",
     "editDisabled": "Matériau non éditable",
+    "addImage": "Ajouter une image",
     "selectImageSource": "Source de l'image",
     "selectImageSourceDesc": "Choisissez la source de l'image pour le matériau",
     "camera": "Caméra",
     "gallery": "Gallerie",
-    "addImage": "Ajouter une image",
+    "addMachine": "Ajouter une machine",
     "addMachinePrompt": "Nom de la machine",
     "deleteMachineConfirmation": "Etes-vous sûr de vouloir supprimer la machine '{name}' ?",
     "machinesList": "Liste des machines",
@@ -78,5 +79,6 @@
     "feedSpeed": "Vitesse d'avance",
     "maxZFeedSpeed": "Vitesse maximale d'avance en Z",
     "depthOfCut": "Profondeur de passe",
-    "close": "Fermer"
+    "close": "Fermer",
+    "takingIntoAccountMachineLimits": "Prise en compte des limites machine"
 }

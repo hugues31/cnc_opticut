@@ -1,5 +1,3 @@
-// Init database with shared preferences
-
 import 'package:cnc_opticut/src/machine/machine.dart';
 import 'package:cnc_opticut/src/machine/machines_preset_list.dart';
 import 'package:cnc_opticut/src/material/material_item.dart';

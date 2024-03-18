@@ -38,6 +38,7 @@ class MaxZFeedSpeed extends ConsumerWidget {
            \\end{aligned}""", textStyle: const TextStyle(fontSize: 20))
             ],
           ),
-        ));
+        ),
+        leadingImage: "assets/images/results/z_feed_speed.png");
   }
 }

@@ -1,10 +1,10 @@
 import 'package:cnc_opticut/src/tool/tool.dart';
 
-// Generate tool preset tools
-// Make a list ranging from :
-// diameter: 1 to 8mm
-// each in HSS and Carbide
-// each with 1 to 4 teeth
+// Tools preset
+// List ranging from :
+// * diameter: 1 to 8mm
+// * each in HSS and Carbide
+// * each with 1 to 4 teeth
 
 List<Tool> generateToolPresetList() {
   var toolsPresetList = <Tool>[];

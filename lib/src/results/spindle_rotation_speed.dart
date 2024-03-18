@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:cnc_opticut/src/machine/current_machine.dart';
 import 'package:cnc_opticut/src/material/current_material.dart';
 import 'package:cnc_opticut/src/results/result_widget.dart';
 import 'package:cnc_opticut/src/tool/current_tool.dart';
@@ -15,7 +14,7 @@ class SpindleRotationSpeed extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentMachine = ref.watch(currentMachineProvider);
+    // final currentMachine = ref.watch(currentMachineProvider);
     final currentMaterial = ref.watch(currentMaterialProvider);
     final currentTool = ref.watch(currentToolProvider);
 
@@ -41,6 +40,7 @@ class SpindleRotationSpeed extends ConsumerWidget {
            \\end{aligned}""", textStyle: const TextStyle(fontSize: 20))
             ],
           ),
-        ));
+        ),
+        leadingImage: "assets/images/results/spindle_rotation_speed.png");
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cnc_opticut/src/machine/machine_selector.dart';
+import 'package:cnc_opticut/src/machine/use_machine_limits.dart';
 import 'package:cnc_opticut/src/results/depth_cut.dart';
 import 'package:cnc_opticut/src/results/feed_speed.dart';
 import 'package:cnc_opticut/src/results/max_z_feed_speed.dart';
@@ -56,6 +57,15 @@ class MainScreen extends ConsumerWidget {
             AppLocalizations.of(context)!.cuttingParameters,
             style: Theme.of(context).textTheme.titleLarge,
           )),
+          SwitchListTile(
+            title: Text(
+                AppLocalizations.of(context)!.takingIntoAccountMachineLimits),
+            value: ref.watch(useMachineLimits),
+            onChanged: (value) {
+              ref.read(useMachineLimits.notifier).state = value;
+            },
+            dense: true,
+          ),
           const SpindleRotationSpeed(),
           const FeedSpeed(),
           const MaxZFeedSpeed(),

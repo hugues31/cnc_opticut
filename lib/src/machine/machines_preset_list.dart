@@ -13,8 +13,8 @@ var machinePresetList = [
   Machine(
     nameKey: 'Aureus 3X',
     rigidity: 1.0,
-    maxSpindleRotationSpeedRpm: 15000,
-    maxAxisFeedSpeedMmPerMin: 1500,
+    maxSpindleRotationSpeedRpm: 25000,
+    maxAxisFeedSpeedMmPerMin: 2500,
     polePairsNumber: 2,
     imagePath: 'assets/images/machines/cnc_aureus_3x.png',
     isPreset: true,
