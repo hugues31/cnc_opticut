@@ -1,4 +1,5 @@
 import 'package:cnc_opticut/src/machine/current_machine.dart';
+import 'package:cnc_opticut/src/machine/use_machine_limits.dart';
 import 'package:cnc_opticut/src/material/current_material.dart';
 import 'package:cnc_opticut/src/results/result_widget.dart';
 import 'package:cnc_opticut/src/tool/current_tool.dart';
@@ -12,16 +13,25 @@ class MaxZFeedSpeed extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final useMachineLimits = ref.watch(useMachineLimitsProvider);
     final currentMachine = ref.watch(currentMachineProvider);
     final currentMaterial = ref.watch(currentMaterialProvider);
     final currentTool = ref.watch(currentToolProvider);
 
     final n = currentMachine.maxSpindleRotationSpeedRpm;
     final z = currentTool.teeth;
-    final fz =
-        currentMaterial.getCuttingChartRowWithDepth(currentTool.diameter);
+    final fz = currentMaterial
+        .getCuttingChartRowWithDepth(currentTool.diameter)
+        .chipLoad;
 
-    final result = (n * z * fz.depth).round();
+    final uncappedResult = (n * z * fz).round();
+    final limitReached =
+        uncappedResult > currentMachine.maxAxisFeedSpeedMmPerMin;
+    final vf = limitReached && useMachineLimits
+        ? currentMachine.maxAxisFeedSpeedMmPerMin
+        : uncappedResult;
+
+    final result = (vf / 2).round();
     const unit = "mm/min";
 
     return ResultWidget(
@@ -32,9 +42,9 @@ class MaxZFeedSpeed extends ConsumerWidget {
           child: Column(
             children: [
               Math.tex("""\\begin{aligned}
-           n & = \\frac{1000 * Vc}{\\pi * D} \\\\ \\\\
-           n & = \\frac{1000 * -1}{\\pi * ${currentTool.diameter}} \\\\ \\\\
-           n & \\approx $result \\, \\text{$unit}
+           V_f(z) & = \\frac{V_f}{2} \\\\ \\\\
+           V_f(z) & = \\frac{$vf}{2} \\\\ \\\\
+           V_f(z) & \\approx $result \\, \\text{$unit}
            \\end{aligned}""", textStyle: const TextStyle(fontSize: 20))
             ],
           ),

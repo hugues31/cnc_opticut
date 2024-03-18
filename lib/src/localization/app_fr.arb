@@ -75,10 +75,11 @@
     "maxSpindleRotationSpeed": "Vitesse maximale de rotation de la broche (rpm)",
     "maxAxisFeedSpeed": "Vitesse maximale d'avance des axes (mm/min)",
     "polePairs": "Paires de pôle (Pp)",
-    "spindleRotationSpeed" : "Vitesse de rotation de la broche",
+    "spindleRotationSpeed": "Vitesse de rotation de la broche",
     "feedSpeed": "Vitesse d'avance",
     "maxZFeedSpeed": "Vitesse maximale d'avance en Z",
     "depthOfCut": "Profondeur de passe",
     "close": "Fermer",
-    "takingIntoAccountMachineLimits": "Prise en compte des limites machine"
+    "takingIntoAccountMachineLimits": "Prise en compte des limites machine",
+    "machineLimitsCorrection": "Correction limites machine :"
 }

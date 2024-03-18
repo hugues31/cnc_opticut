@@ -13,7 +13,7 @@ List<Tool> generateToolPresetList() {
       toolsPresetList.add(
         Tool(
           nameKey: '$diameter mm HSS $teeth teeth',
-          imagePath: 'assets/images/materials/custom_material.png',
+          imagePath: 'assets/images/tools/hss.png',
           isPreset: true,
           material: ToolMaterial.hss,
           diameter: diameter.toDouble(),
@@ -23,7 +23,7 @@ List<Tool> generateToolPresetList() {
       toolsPresetList.add(
         Tool(
           nameKey: '$diameter mm Carbide $teeth teeth',
-          imagePath: 'assets/images/materials/custom_material.png',
+          imagePath: 'assets/images/tools/carbide.png',
           isPreset: true,
           material: ToolMaterial.carbide,
           diameter: diameter.toDouble(),

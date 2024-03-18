@@ -15,7 +15,7 @@ class MachineListView extends ConsumerWidget {
     super.key,
   });
 
-  static const routeName = '/material_list';
+  static const routeName = '/machine_list';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -159,8 +159,8 @@ class MachineListView extends ConsumerWidget {
                       Navigator.pop(context, machine);
                     },
                     onLongPress: () {
-                      Navigator.pushNamed(
-                          context, MachineDetailsView.routeName);
+                      Navigator.pushNamed(context, MachineDetailsView.routeName,
+                          arguments: machine);
                     });
               },
             );

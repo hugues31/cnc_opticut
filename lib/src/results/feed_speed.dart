@@ -1,4 +1,5 @@
 import 'package:cnc_opticut/src/machine/current_machine.dart';
+import 'package:cnc_opticut/src/machine/use_machine_limits.dart';
 import 'package:cnc_opticut/src/material/current_material.dart';
 import 'package:cnc_opticut/src/results/result_widget.dart';
 import 'package:cnc_opticut/src/tool/current_tool.dart';
@@ -12,6 +13,7 @@ class FeedSpeed extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final useMachineLimits = ref.watch(useMachineLimitsProvider);
     final currentMachine = ref.watch(currentMachineProvider);
     final currentMaterial = ref.watch(currentMaterialProvider);
     final currentTool = ref.watch(currentToolProvider);
@@ -22,7 +24,12 @@ class FeedSpeed extends ConsumerWidget {
         .getCuttingChartRowWithDepth(currentTool.diameter)
         .chipLoad;
 
-    final result = (n * z * fz).round();
+    final uncappedResult = (n * z * fz).round();
+    final limitReached =
+        uncappedResult > currentMachine.maxAxisFeedSpeedMmPerMin;
+    final result = limitReached && useMachineLimits
+        ? currentMachine.maxAxisFeedSpeedMmPerMin
+        : uncappedResult;
     const unit = "mm/min";
 
     return ResultWidget(
@@ -35,8 +42,22 @@ class FeedSpeed extends ConsumerWidget {
               Math.tex("""\\begin{aligned}
            V_f & = n * fz * Z \\\\ \\\\
            V_f & = $n * $fz * $z \\\\ \\\\
-           V_f & \\approx $result \\, \\text{$unit}
-           \\end{aligned}""", textStyle: const TextStyle(fontSize: 20))
+           V_f & \\approx $uncappedResult \\, \\text{$unit}
+           \\end{aligned}""", textStyle: const TextStyle(fontSize: 20)),
+              if (limitReached && useMachineLimits) ...[
+                Text(
+                  AppLocalizations.of(context)!.machineLimitsCorrection,
+                  style: const TextStyle(color: Colors.red),
+                ),
+                Math.tex(
+                  """\\begin{aligned}
+                    V_f & = \\min(V_f, V_{f_{max}}) \\\\
+                    V_f & = \\min($uncappedResult, ${currentMachine.maxAxisFeedSpeedMmPerMin}) \\\\
+                    V_f & = $result \\, \\text{$unit}
+                    \\end{aligned}""",
+                  textStyle: const TextStyle(fontSize: 20),
+                )
+              ]
             ],
           ),
         ),

@@ -3,7 +3,7 @@ import 'package:cnc_opticut/src/machine/machine.dart';
 var machinePresetList = [
   Machine(
     nameKey: '3018 Pro',
-    rigidity: 0.25,
+    rigidity: 0.3,
     maxSpindleRotationSpeedRpm: 10000,
     maxAxisFeedSpeedMmPerMin: 1000,
     polePairsNumber: 1,
@@ -22,7 +22,7 @@ var machinePresetList = [
   // https://www.mekanika.io/fr_BE/products/pro-cnc/technical-specifications
   Machine(
     nameKey: 'Mekanika Pro Mk2',
-    rigidity: 3.0,
+    rigidity: 2.0,
     maxSpindleRotationSpeedRpm: 18000,
     maxAxisFeedSpeedMmPerMin: 5000,
     polePairsNumber: 1,

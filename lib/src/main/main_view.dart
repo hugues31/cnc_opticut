@@ -60,11 +60,11 @@ class MainScreen extends ConsumerWidget {
           SwitchListTile(
             title: Text(
                 AppLocalizations.of(context)!.takingIntoAccountMachineLimits),
-            value: ref.watch(useMachineLimits),
+            value: ref.watch(useMachineLimitsProvider),
             onChanged: (value) {
-              ref.read(useMachineLimits.notifier).state = value;
+              ref.read(useMachineLimitsProvider.notifier).state = value;
             },
-            dense: true,
+            // dense: true,
           ),
           const SpindleRotationSpeed(),
           const FeedSpeed(),

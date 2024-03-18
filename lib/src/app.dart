@@ -1,4 +1,5 @@
 import 'package:cnc_opticut/src/machine/machine_detail_view.dart';
+import 'package:cnc_opticut/src/machine/machine_list_view.dart';
 import 'package:cnc_opticut/src/main/main_view.dart';
 import 'package:cnc_opticut/src/main/theme.dart';
 import 'package:cnc_opticut/src/tool/tool_detail_view.dart';
@@ -73,6 +74,9 @@ class App extends ConsumerWidget {
 
               case MachineDetailsView.routeName:
                 return const MachineDetailsView();
+
+              case MachineListView.routeName:
+                return const MachineListView();
 
               case MaterialListView.routeName:
                 return const MaterialListView();
